@@ -3,10 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+
 
 class UserController extends Controller
 {
@@ -64,17 +67,17 @@ class UserController extends Controller
     public function indexAction()
     {
         
-        $em = $this->getDoctrine()->getRepository(User::class)->findAll();
+        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
 
         return $this->render('user/index.html.twig', array(
-            'users' => $users,
+            'users' => $users
         ));
     }
 
 
 
     /**
-     * @Route("/remove_user/{id}", name="user_show")
+     * @Route("/remove_user/{id}", name="user_delete")
      */
     public function removeAction($id)
     {
@@ -99,4 +102,33 @@ class UserController extends Controller
         // in the template, print things with {{ product.name }}
         // return $this->render('product/show.html.twig', ['product' => $product]);
     }
+
+
+    /**
+     * @Route("/new_user", name="user_new")
+     */
+     public function newUserAction(Request $request)
+    {
+        // creates a task and gives it some dummy data for this example
+        $user = new User();
+       
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+       
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirectToRoute('user_show', array('id' => $user->getId()));
+        }
+
+         return $this->render('user/index.html.twig', array(
+            'user' => $user,
+            'form' => $form->createView(),
+        )); 
+    }
+
+
 }

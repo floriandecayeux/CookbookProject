@@ -6,7 +6,21 @@
 
 {% block body %}
     {{ parent() }}
-    Page d'accueil
+ 
+    {% if users is defined %}
+        {% for user in users %}
+	        <tr>
+	        	<td >{{user.username}}</td>
+	        </tr>
+        {% endfor %}
+	{% endif %}
+  
+	{% if form is defined %}
+		{{ form_start(form) }}
+	        {{ form_widget(form) }}
+	        <input type="submit" value="Create" />
+	    {{ form_end(form) }}
+	{% endif %}
 {% endblock %}
 
 {% block javascripts %}{{ parent() }}{% endblock %}
