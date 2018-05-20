@@ -5,9 +5,14 @@
     "license": "UNLICENSED",
     "private": true,
     "scripts": {
+        "start": "php bin/console server:run",
         "dev-server": "encore dev-server",
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production"
+    },
+    "dependencies": {
+        "bulma": "^0.7.1",
+        "bulma-start": "0.0.2"
     }
 }

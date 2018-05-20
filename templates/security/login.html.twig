@@ -1,0 +1,49 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+{% endblock %}
+
+{% block body %}
+    {% if error %}
+        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    <section class="hero is-info is-fullheight">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <div class="column is-4 is-offset-4">
+                    <h3 class="title">Login</h3>
+                    <p class="subtitle">Connectez-vous à votre espace administrateur</p>
+                    <div class="box">
+
+                        <form action="{{ path('login') }}" method="post">
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input is-large" type="text" id="username" name="_username" value="{{ last_username }}" placeholder="Identifiant" autofocus="">
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input is-large" type="password" id="password" name="_password" placeholder="Mot de passe" autofocus="">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="checkbox">
+                                    <input type="checkbox">
+                                    Se souvenir de moi
+                                </label>
+                            </div>
+                            <button class="button is-block is-info is-large is-fullwidth">Connexion</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
