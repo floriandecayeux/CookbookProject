@@ -5,11 +5,14 @@
     "license": "UNLICENSED",
     "private": true,
     "scripts": {
-        "start": "php bin/console server:run",
         "dev-server": "encore dev-server",
         "dev": "encore dev",
         "watch": "encore dev --watch",
-        "build": "encore production"
+        "build": "encore production",
+        "start": "php bin/console server:run",
+        "db:all": "npm run db:create && npm run db:migrate",
+        "db:create": "php bin/console doctrine:database:create ",
+        "db:migrate": "php bin/console doctrine:migrations:diff && php bin/console doctrine:migrations:migrate"
     },
     "dependencies": {
         "bulma": "^0.7.1",
