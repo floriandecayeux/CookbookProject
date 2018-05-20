@@ -11,17 +11,17 @@ use Symfony\Component\HttpFoundation\Response;
 class UserController extends Controller
 {
     /**
-     * @Route("/create_user", name="user")
+     * @Route("/user/indexcr", name="user")
      */
-    public function createAdmin(UserPasswordEncoderInterface $encoder)
+    public function createUser(UserPasswordEncoderInterface $encoder, $username, $mail, $password)
     {
         $em = $this->getDoctrine()->getManager();
 
         $user = new User();
-        $user->setUsername('admin');
-        $user->setEmail("admin@rederiesalouel.fr");
-        $user->setRole("ROLE_ADMIN");
-        $plainPassword = "admin";
+        $user->setUsername($username);
+        $user->setEmail($mail);
+       
+        $plainPassword = $password;
         $encoded = $encoder->encodePassword($user, $plainPassword);
 
         $user->setPassword($encoded);
@@ -32,7 +32,7 @@ class UserController extends Controller
         // actually executes the queries (i.e. the INSERT query)
         $em->flush();
 
-        return new Response('Saved new user with id '.$user->getId());
+        return $this->render('Saved new user with id '.$user->getId());
     }
 
     /**
@@ -50,12 +50,28 @@ class UserController extends Controller
             );
         }
 
-        return new Response('Check out this great admin: '.$user->getUsername(). ' with password :' .$user->getPassword() ." and with role : " .$user->getRole());
+        return $this->render('user/index.html.twig');
 
         // or render a template
         // in the template, print things with {{ product.name }}
         // return $this->render('product/show.html.twig', ['product' => $product]);
     }
+
+
+    /**
+     * @Route("/user", name="user_index")
+     */
+    public function indexAction()
+    {
+        
+        $em = $this->getDoctrine()->getRepository(User::class)->findAll();
+
+        return $this->render('user/index.html.twig', array(
+            'users' => $users,
+        ));
+    }
+
+
 
     /**
      * @Route("/remove_user/{id}", name="user_show")

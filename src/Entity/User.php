@@ -38,11 +38,7 @@ class User implements UserInterface, \Serializable
      */
     private $isActive;
 
-    /**
-     * @ORM\Column(type="string", length=60, unique=true)
-     */
-    private $role;
-
+   
     public function __construct()
     {
         $this->isActive = true;
@@ -75,21 +71,6 @@ class User implements UserInterface, \Serializable
         return $this->password;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getRole()
-    {
-        return $this->role;
-    }
-
-    /**
-     * @param mixed $role
-     */
-    public function setRole($role): void
-    {
-        $this->role = $role;
-    }
 
     /**
      * @return mixed
@@ -131,11 +112,7 @@ class User implements UserInterface, \Serializable
         $this->isActive = $isActive;
     }
 
-    public function getRoles()
-    {
-        return array('ROLE_USER');
-    }
-
+   
     public function eraseCredentials()
     {
     }
@@ -147,6 +124,7 @@ class User implements UserInterface, \Serializable
             $this->id,
             $this->username,
             $this->password,
+            $this->mail,
             // see section on salt below
             // $this->salt,
         ));
@@ -159,6 +137,7 @@ class User implements UserInterface, \Serializable
             $this->id,
             $this->username,
             $this->password,
+            $this->mail,
             // see section on salt below
             // $this->salt
             ) = unserialize($serialized);
