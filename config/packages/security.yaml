@@ -9,8 +9,8 @@ security:
         main:
             anonymous: ~
             form_login:
-                login_path: login
-                check_path: login
+                login_path: /login
+                check_path: /login_check
 
             # activate different ways to authenticate
 
