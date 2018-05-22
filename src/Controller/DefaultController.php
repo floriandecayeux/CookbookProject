@@ -19,10 +19,6 @@ class DefaultController extends Controller
      * @Route("/", name="index")
      */
     public function index(){
-        return $this->render('index.html.twig'/*, [
-            'reservations' => $reservations,
-            'metresReserves' => $metresReserves,
-            'sommeCollectee' => $sommeCollectee
-        ]*/);
+        return $this->render('index.html.twig');
     }
 }
