@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User 
+class User implements UserInterface, \Serializable
 {
     /**
      * @ORM\Column(type="integer")
@@ -46,9 +46,19 @@ class User
     private $recettes;
 
    
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+
+
+
     public function __construct()
     {
         $this->isActive = true;
+        $this->roles = 'ROLE_USER';
         $this->recettes = new ArrayCollection();
         // may not be needed, see section on salt below
         // $this->salt = md5(uniqid('', true));
@@ -125,7 +135,7 @@ class User
             $this->id,
             $this->username,
             $this->password,
-            $this->mail,
+            $this->email,
             // see section on salt below
             // $this->salt,
         ));
@@ -138,7 +148,7 @@ class User
             $this->id,
             $this->username,
             $this->password,
-            $this->mail,
+            $this->email,
             // see section on salt below
             // $this->salt
             ) = unserialize($serialized);

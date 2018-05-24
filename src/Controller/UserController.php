@@ -53,7 +53,9 @@ class UserController extends Controller
             );
         }
 
-        return $this->render('user/index.html.twig');
+        return $this->render('user/index.html.twig', array(
+            'user' => $user
+        ));
 
         // or render a template
         // in the template, print things with {{ product.name }}
