@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use App\Entity\User;
 
 class UserType extends AbstractType
@@ -18,7 +19,7 @@ class UserType extends AbstractType
         $builder->add('username', null, array(
                     'label_attr' => array('class' => 'MYCLASSFOR_LABEL'),
                     'attr'       => array('class' => 'MYCLASSFOR_INPUTS')))
-                ->add('password', null, array(
+                ->add('password', PasswordType::class, array(
                     'label_attr' => array('class' => 'MYCLASSFOR_LABEL'),
                     'attr'       => array('class' => 'MYCLASSFOR_INPUTS')))
                 ->add('email', null, array(
