@@ -11,23 +11,90 @@
     </head>
     <body>
         {% block body %}
+
+            <!-- =============================== MODAL =================================== -->
+            <div class="modal" id="connectionModal">
+                <div class="modal-background"></div>
+                <div class="modal-content">
+                    <form class="modal-card" action="{{ path('login_check') }}" method="post">
+                        <header class="modal-card-head has-background-danger">
+                            <p class="modal-card-title has-text-white has-text-centered has-text-weight-bold">Connectez-vous</p>
+                        </header>
+                        <section class="modal-card-body">
+                            <div class="field">
+                                <p class="control has-icons-left has-icons-right">
+                                    <input class="input" placeholder="Utilisateur" id="username" name="_username">
+                                    <span class="icon is-small is-left">
+                                  <i class="fas fa-user"></i>
+                                </span>
+                                </p>
+                            </div>
+                            <div class="field">
+                                <p class="control has-icons-left">
+                                    <input class="input" type="password" placeholder="Mot de passe" id="password" name="_password">
+                                    <span class="icon is-small is-left">
+                                  <i class="fas fa-lock"></i>
+                                </span>
+                                </p>
+                            </div>
+                            <div class="field has-text-centered">
+                                <p><a class="has-text-danger has-text-centered">Pas encore inscrit ?</a></p>
+                            </div>
+                        </section>
+                        <footer class="modal-card-foot field is-grouped is-grouped-centered">
+                                <p class="control">
+                                    <a class="button is-danger">
+                                        Valider
+                                    </a>
+                                </p>
+                                <p class="control" onclick="closeConnectionModal()">
+                                    <a class="button is-white">
+                                        Annuler
+                                    </a>
+                                </p>
+
+                        </footer>
+                    </form>
+                </div>
+                <button class="modal-close is-large" aria-label="close" onclick="closeConnectionModal()"></button>
+            </div>
+
+            <!-- =============================== NAVBAR =================================== -->
             <nav class="navbar is-danger is-fixed-top" role="navigation">
-                <div class="navbar-menu">
-                    <div class="navbar-start">
-                        <a class="navbar-item is-white" href="https://bulma.io">
-                            <img src="{{ asset('icons/logo.png') }}" alt="Cookbook">
-                        </a>
+                <div class="navbar-brand">
+                    <a class="navbar-item is-white" href="https://bulma.io">
+                        <img src="{{ asset('icons/logo.png') }}" alt="Cookbook">
+                    </a>
+                    <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
+                        <span></span>
+                        <span></span>
+                        <span></span>
                     </div>
+                </div>
+                <div class="navbar-menu">
                     <div class="navbar-end">
-                        <a class="navbar-item" href="">Inscription</a>
-                        <div class="navbar-item">
-                            <a class="button is-white" href="">
-                            <span class="icon">
-                                <i class="fas fa-sign-in-alt"></i>
-                            </span>
-                                <span>Se connecter</span>
-                            </a>
-                        </div>
+                        {% if is_granted("ROLE_USER") %}
+                            {{ app.user.username }}
+                            <div class="navbar-item">
+                                <a class="button is-white" onclick="openConnectionModal()">
+                                    <span class="icon">
+                                        <i class="fas fa-sign-in-alt"></i>
+                                    </span>
+                                    <span>Déconnexion</span>
+                                </a>
+                            </div>
+                        {% else %}
+                            <a class="navbar-item" href="">Inscription</a>
+                            <div class="navbar-item">
+                                <a class="button is-white" onclick="openConnectionModal()">
+                                    <span class="icon">
+                                        <i class="fas fa-sign-in-alt"></i>
+                                    </span>
+                                    <span>Connexion</span>
+                                </a>
+                            </div>
+                        {% endif %}
+
                     </div>
                 </div>
             </nav>
@@ -35,14 +102,6 @@
             <div class="parallax-window" style="width:100%; height:500px;" data-parallax="scroll" data-image-src="{{ asset('icons/header.jpg') }}">
 
             </div>
-
-            <!--<section class="hero is-large is-transparent has-text-left">
-                <div class="hero-body">
-                    <div class="container">
-
-                    </div>
-                </div>
-            </section>-->
 
             <section class="hero is-white is-fullheight">
                 <div class="hero-body">
@@ -72,6 +131,7 @@
         {% block javascripts %}
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
             <script type="text/javascript" src="{{ asset('assets/parallax.js-1.5.0/parallax.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('assets/script.js') }}"></script>
         {% endblock %}
     </body>
 </html>
