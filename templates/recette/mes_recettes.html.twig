@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Recettes{% endblock %}
+
+{% block stylesheets %}{{ parent() }}{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+
+
+     {% if recettes is defined %}
+      
+	        <tr>mes recettes :
+	          {% for recette in recettes %}
+	        	<td > {{recette.titre}}</td>
+	          {% endfor %}
+	        </tr>
+       
+	{% endif %}
+
+{% endblock %}
+
+{% block javascripts %}{{ parent() }}{% endblock %}
