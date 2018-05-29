@@ -15,6 +15,49 @@
 	        <input type="submit" value="Create" />
 	    {{ form_end(form) }}
 	{% endif %}
+
+	<form action="{{ path('ajout_recette') }}" method="post">
+    <label for="titre">Titre:</label>
+    <input type="text" id="titre" name="_titre" value="" />
+
+   Categorie :
+    <select id="categorie" name="_categorie"> 
+   
+    	<option value="Entrée">Entrée</option>
+    	<option value="Plat">Plat</option>
+    	<option value="Dessert">Dessert</option>
+	</select>
+
+
+    nbPersonnes :
+    <select id="nbPersonnes" name="_nbPersonnes"> 
+    	{% for i in range(1,12,1) %}
+    	<option value="{{i}}">{{i}}</option>
+    	{% endfor %}
+	</select>
+
+	 temps Prepa :
+    <select id="tempsPrepa" name="_tempsPrepa"> 
+    	{% for i in range(5,120,5) %}
+    	<option value="{{i}}">{{i}}</option>
+    	{% endfor %}
+	</select>
+
+
+
+<!-- 
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="_password" />
+ 
+    {#
+        If you want to control the URL the user
+        is redirected to on success (more details below)
+        <input type="hidden" name="_target_path" value="/account" />
+    #}
+-->
+    <button type="submit" id="submit_alert" name="submit_alert">create</button>
+</form>
+
 {% endblock %}
 
 {% block javascripts %}{{ parent() }}{% endblock %}

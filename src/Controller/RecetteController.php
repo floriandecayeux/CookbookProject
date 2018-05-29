@@ -122,6 +122,45 @@ class RecetteController extends Controller
 
 
 
+    /**
+     * @Route("/ajout_recette", name="ajout_recette")
+     */
+    public function ajoutRecette(Request $request){
+
+
+       
+       
+        $request = $this->get('request_stack')->getCurrentRequest();
+
+        
+    //submit
+        if ($request->request->has('submit_alert')) {
+           
+           $titre =  $request->request->get('_titre');
+           $categorie = $request->request->get('_categorie');
+           $nbPersonnes = $request->request->get('_nbPersonnes');
+           $tempsPreparation= $request->request->get('_tempsPrepa');
+
+            $recette = new Recette($this->getUser());
+            $recette->setTitre($titre);
+            $recette->setCategorie($categorie);
+            $recette->setNbPersonnes($nbPersonnes); 
+            $recette->setTempsPreparation($tempsPreparation); 
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($recette);
+            $em->flush();
+
+            return $this->redirectToRoute('mes_recettes');
+         
+           
+
+        } else {
+            $titre = 'Not submitted yet';
+        }
+
+         return $this->render('recette/index.html.twig'); 
+    }
 
 
 
