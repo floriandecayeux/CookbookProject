@@ -40,7 +40,7 @@ class Recette
     private $categorie;
 
      /**
-     * @ORM\Column(type="string", length=250)
+     * @ORM\Column(type="string", length=250, nullable=true)
      */
     private $keyword;
 
