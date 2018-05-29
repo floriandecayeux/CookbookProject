@@ -7,10 +7,10 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method User|null find($id, $lockMode = null, $lockVersion = null)
- * @method User|null findOneBy(array $criteria, array $orderBy = null)
- * @method User[]    findAll()
- * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Recette|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Recette|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Recette[]    findAll()
+ * @method Recette[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class RecetteRepository extends ServiceEntityRepository
 {

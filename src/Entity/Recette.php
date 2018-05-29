@@ -19,7 +19,7 @@ class Recette
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=25, unique=true)
+     * @ORM\Column(type="string", length=50)
      */
     private $titre;
 
@@ -35,12 +35,12 @@ class Recette
 
 
       /**
-     * @ORM\Column(type="string", length=25, unique=true)
+     * @ORM\Column(type="string", length=25)
      */
     private $categorie;
 
      /**
-     * @ORM\Column(type="string", length=250, unique=true)
+     * @ORM\Column(type="string", length=250)
      */
     private $keyword;
 
@@ -86,7 +86,7 @@ class Recette
         return serialize(array(
             $this->id,
             $this->titre,
-            $this->nbPersonne,
+            $this->nbPersonnes,
             $this->tempsPreparation,
             $this->categorie,
             // see section on salt below

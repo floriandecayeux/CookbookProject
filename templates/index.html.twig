@@ -4,9 +4,23 @@
 
 {% block stylesheets %}{{ parent() }}{% endblock %}
 
-{% block body %}
-    {{ parent() }}
- 
+{% block content %}
+    <div class="parallax-window" style="width:100%; height:500px;" data-parallax="scroll" data-image-src="{{ asset('icons/header.jpg') }}">
+
+    </div>
+
+    <section class="hero is-white is-fullheight">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Primary bold title
+                </h1>
+                <h2 class="subtitle">
+                    Primary bold subtitle
+                </h2>
+            </div>
+        </div>
+    </section>
 {% endblock %}
 
 {% block javascripts %}{{ parent() }}{% endblock %}
