@@ -127,9 +127,6 @@ class RecetteController extends Controller
      */
     public function ajoutRecette(Request $request){
 
-
-       
-       
         $request = $this->get('request_stack')->getCurrentRequest();
 
         

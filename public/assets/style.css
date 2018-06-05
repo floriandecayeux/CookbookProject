@@ -1,0 +1,21 @@
+.header-background{
+    padding: 7rem;
+    text-shadow: 1px 1px #000000;
+    background-image:
+            linear-gradient(
+                    to right,
+                    rgba(0,0,0,0.0),
+                    rgba(0,0,0,0.1),
+                    rgba(0,0,0,0.2),
+                    rgba(0,0,0,0.3),
+                    rgba(0,0,0,0.2),
+                    rgba(0,0,0,0.1),
+                    rgba(0,0,0,0.0)
+            );
+}
+
+.footer{
+    margin-top: 5rem;
+    border-top: 1px #D6D6D6 solid;
+    padding-bottom: 0;
+}

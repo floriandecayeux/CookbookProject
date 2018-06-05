@@ -27,12 +27,6 @@ class DefaultController extends Controller
             ->getRepository(Recette::class)
             ->findAll();
 
-        if (!$recettes) {
-            throw $this->createNotFoundException(
-                'No product found '
-            );
-        }
-
        return $this->render('index.html.twig', array(
             'recettes' => $recettes)/*, [
             'reservations' => $reservations,

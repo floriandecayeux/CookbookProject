@@ -19,19 +19,19 @@ class RecetteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('titre', null, array(
-                    'label_attr' => array('class' => 'MYCLASSFOR_LABEL'),
-                    'attr'       => array('class' => 'MYCLASSFOR_INPUTS')))
+                    'label_attr' => array('class' => 'label'),
+                    'attr'       => array('class' => 'field')))
                 ->add('nbPersonnes', ChoiceType::class, array(
-                    'label_attr' => array('class' => 'MYCLASSFOR_LABEL'),
-                    'attr'       => array('class' => 'MYCLASSFOR_INPUTS'),
+                    'label_attr' => array('class' => 'label'),
+                    'attr'       => array('class' => 'field'),
                     'choices'  => range(1,12)))
                 ->add('tempsPreparation', ChoiceType::class, array(
-                    'label_attr' => array('class' => 'MYCLASSFOR_LABEL'),
-                    'attr'       => array('class' => 'MYCLASSFOR_INPUTS'),
+                    'label_attr' => array('class' => 'label'),
+                    'attr'       => array('class' => 'field'),
                     'choices'    => range(10,120) ))
                 ->add('categorie', ChoiceType::class, array(
-                    'label_attr' => array('class' => 'MYCLASSFOR_LABEL'),
-                    'attr'       => array('class' => 'MYCLASSFOR_INPUTS'),
+                    'label_attr' => array('class' => 'label'),
+                    'attr'       => array('class' => 'field'),
                     'choices'  => array(
                         'Entrée' => null,
                         'Plat' => true,

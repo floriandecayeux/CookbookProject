@@ -1,34 +1,103 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
+{% block title %}{{ parent() }} - Identification{% endblock %}
 
 {% block stylesheets %}{{ parent() }}{% endblock %}
 
+{% block header_title %}Identifiez-vous{% endblock %}
+{% block header_subtitle %}Connectez-vous et rejoignez-nous sur Cookbook pour partager vos propres recettes !{% endblock %}
+{% block header_tabs %}
+    {% if action is defined and action == 'register' %}
+		<li><a href="{{ path('user_login') }}">Connexion</a></li>
+		<li class="is-active"><a href="{{ path('user_register') }}">Inscription</a></li>
+    {% else %}
+		<li class="is-active"><a href="{{ path('user_login') }}" >Connexion</a></li>
+		<li><a href="{{ path('user_register') }}">Inscription</a></li>
+    {% endif %}
+{% endblock %}
+{% block header_image %}{{ asset('icons/default3.png') }}{% endblock %}
+
 {% block content %}
 	<div class="container">
-        {% if users is defined %}
-            {% for user in users %}
-				<tr>
-					<td >{{user.username}}</td>
-				</tr>
-            {% endfor %}
-        {% endif %}
+		<div class="column is-6">
+            {% if action is defined and action == 'register' %}
+				<form action="{{ path('user_new') }}" method="post">
+					<div class="field">
+						<label class="label">Nom d'utilisateur</label>
+						<p class="control has-icons-left has-icons-right">
+							<input class="input {% if error is defined and error %} is-danger{% endif %}" placeholder="Utilisateur" id="username" name="_username" required>
+							<span class="icon is-small is-left">
+							  <i class="fas fa-user"></i>
+							</span>
+						</p>
+					</div>
+					<div class="field">
+						<label class="label">Mot de passe</label>
+						<p class="control has-icons-left">
+							<input class="input{% if error is defined and error %} is-danger{% endif %}" type="password" placeholder="Mot de passe" id="password" name="_password" required>
+							<span class="icon is-small is-left">
+							  <i class="fas fa-lock"></i>
+							</span>
+						</p>
+					</div>
+					<div class="field">
+						<label class="label">Email</label>
+						<p class="control has-icons-left">
+							<input class="input{% if error is defined and error %} is-danger{% endif %}" type="email" placeholder="Email" name="_mail" required>
+							<span class="icon is-small is-left">
+							  <i class="fas fa-envelope"></i>
+							</span>
+						</p>
+					</div>
+					{% if error is defined and error %}
+						<p class="help is-danger">L'utilisateur n'a pas pu être créé.</p>
+					{% endif %}
+					<hr>
+					<div class="field">
 
-        {% if user is defined %}
-			<div class="createdUser">
-				<span>L'utilisateur : {{user.username}} a bien été créé</span>
-
-			</div>
-        {% endif %}
-
-
-        {% if form is defined %}
-            {{ form_start(form) }}
-			<!-- {{ form_label(form.password, 'test', { 'label_attr': {'class': 'MYCLASSFOR_LABEL'} }) }} -->
-            {{ form_widget(form) }}
-			<input class="button" type="submit" value="Créer" />
-            {{ form_end(form) }}
-        {% endif %}
+					</div>
+					<div class="field is-grouped is-grouped-right">
+						<p class="control">
+							<button type="submit" class="button is-danger">
+								Créer un utilisateur
+							</button>
+						</p>
+					</div>
+				</form>
+			{% else %}
+				<form action="{{ path('login_check') }}" method="post">
+					<div class="field">
+						<label class="label">Nom d'utilisateur</label>
+						<p class="control has-icons-left has-icons-right">
+							<input class="input {% if error is defined and error %} is-danger{% endif %}" placeholder="Utilisateur" id="username" name="_username" {% if last_username is defined %}value="{{ last_username }}"{% endif %} required>
+							<span class="icon is-small is-left">
+							  <i class="fas fa-user"></i>
+							</span>
+						</p>
+					</div>
+					<div class="field">
+						<label class="label">Mot de passe</label>
+						<p class="control has-icons-left">
+							<input class="input{% if error is defined and error %} is-danger{% endif %}" type="password" placeholder="Mot de passe" id="password" name="_password" required>
+							<span class="icon is-small is-left">
+							  <i class="fas fa-lock"></i>
+							</span>
+						</p>
+					</div>
+					{% if error is defined and error %}
+						<p class="help is-danger">Nom d'utilisateur et/ou mot de passe incorrect(s)</p>
+					{% endif %}
+					<hr>
+					<div class="field is-grouped is-grouped-right">
+						<p class="control">
+							<button type="submit" class="button is-danger">
+								Me connecter
+							</button>
+						</p>
+					</div>
+				</form>
+			{% endif %}
+		</div>
 	</div>
 {% endblock %}
 

@@ -3,4 +3,10 @@
 
 $navbar-item-img-max-height: 2.5rem;
 
+$tabs-link-color: $grey;
+$tabs-link-active-border-bottom-color: $red;
+$tabs-link-active-color: $red;
+$link: $red;
+
+
 @import "./bulma/bulma.sass";

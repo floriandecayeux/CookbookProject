@@ -14,6 +14,24 @@ use Symfony\Component\HttpFoundation\Request;
 class UserController extends Controller
 {
     /**
+     * @Route("/user_login", name="user_login")
+     */
+    public function indexLogin(){
+        return $this->render('user/index.html.twig', array(
+            'action' => 'login'
+        ));
+    }
+
+    /**
+     * @Route("/user_register", name="user_register")
+     */
+    public function indexRegister(){
+        return $this->render('user/index.html.twig', array(
+            'action' => 'register'
+        ));
+    }
+
+    /**
      * @Route("/user/indexcr", name="user")
      */
     public function createUser(UserPasswordEncoderInterface $encoder, $username, $mail, $password)
@@ -62,22 +80,6 @@ class UserController extends Controller
         // return $this->render('product/show.html.twig', ['product' => $product]);
     }
 
-
-    /**
-     * @Route("/user", name="user_index")
-     */
-    public function indexAction()
-    {
-        
-        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
-
-        return $this->render('user/index.html.twig', array(
-            'users' => $users
-        ));
-    }
-
-
-
     /**
      * @Route("/remove_user/{id}", name="user_delete")
      */
@@ -107,8 +109,38 @@ class UserController extends Controller
 
 
     /**
-     * @Route("/new_user", name="user_new")
+     * @Route("/user_new", name="user_new")
      */
+    public function newUserAction(Request $request){
+        //submit
+            try{
+                $username =  $request->request->get('_username');
+                $password = $request->request->get('_password');
+                $mail = $request->request->get('_mail');
+
+                $user = new User();
+                $user->setUsername($username);
+                $user->setPassword($password);
+                $user->setEmail($mail);
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
+
+                return $this->redirectToRoute('user_login');
+            } catch (\Exception $e) {
+                return $this->render(
+                    'user/index.html.twig',
+                    array(
+                        // last username entered by the user
+                        'action' => 'register',
+                        'error'  => true
+                    )
+                );
+            }
+    }
+
+    /*
      public function newUserAction(Request $request)
     {
         // creates a task and gives it some dummy data for this example
@@ -119,18 +151,25 @@ class UserController extends Controller
        
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
+            try{
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
 
-            return $this->redirectToRoute('user_show', array('id' => $user->getId()));
+                return $this->redirectToRoute('index', array('id' => $user->getId()));
+            } catch(\Doctrine\ORM\ORMException $e){
+                return $this->render('user/index.html.twig', array(
+                    'user' => $user,
+                    'form' => $form->createView()
+                ));
+            }
         }
 
          return $this->render('user/index.html.twig', array(
             'user' => $user,
-            'form' => $form->createView(),
+            'form' => $form->createView()
         )); 
-    }
+    }*/
 
 
 }
