@@ -51,6 +51,13 @@ class Recette
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Ingredient", mappedBy="recette")
+     */
+    private $ingredients;
+
   
     public function getUser(){
         return $this->user;
@@ -177,5 +184,36 @@ class Recette
         return $keyList;
     }
 
+
+     /**
+     * @return Collection|Recette[]
+     */
+    public function getIngredients(): Collection
+    {
+        return $this->ingredients;
+    }
+
+    public function addIngredient(Recette $ingredient): self
+    {
+        if (!$this->ingredients->contains($ingredient)) {
+            $this->ingredients[] = $ingredient;
+            $ingredient->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIngredient(Recette $ingredient): self
+    {
+        if ($this->ingredients->contains($ingredient)) {
+            $this->ingredients->removeElement($ingredient);
+            // set the owning side to null (unless already changed)
+            if ($ingredient->getUser() === $this) {
+                $ingredient->setUser(null);
+            }
+        }
+
+        return $this;
+    }
   
 }
