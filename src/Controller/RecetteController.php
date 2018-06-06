@@ -147,8 +147,7 @@ class RecetteController extends Controller
 
         
     //submit
-        if ($request->request->has('submit_alert')) {
-           
+        try{
            $titre =  $request->request->get('_titre');
            $categorie = $request->request->get('_categorie');
            $nbPersonnes = $request->request->get('_nbPersonnes');
@@ -165,14 +164,17 @@ class RecetteController extends Controller
             $em->flush();
 
             return $this->redirectToRoute('mes_recettes');
-         
-           
 
-        } else {
-            $titre = 'Not submitted yet';
+        } catch (\Exception $e) {
+            return $this->render(
+                'recettes/mes_recettes.html.twig',
+                array(
+                    // last username entered by the user
+                    'action' => 'recettes_new',
+                    'error'  => true
+                )
+            );
         }
-
-         return $this->render('recette/index.html.twig'); 
     }
 
 
