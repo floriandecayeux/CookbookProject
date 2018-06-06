@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block stylesheets %}{{ parent() }}{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+
+
+{{form_start(form)}} 
+            {{form_widget(form)}}
+            <input class="btn btn-success" type="submit" value="Ajouter" /> 
+  {{form_end(form)}}
+
+
+
+
+<!-- 
+<form action="{{ path('ajout_image') }}" method="post">
+<input id="imageRecette" name="imageRecette[image]" required="required" type="file">
+
+  <img src="{{ asset('uploads/images/' ~ recette.image) }}" height="100px" width="250px">
+
+  <button type="submit" id="submit_alert" name="submit_alert">create</button>
+</form>
+ -->
+
+
+{% endblock %}
+
+
+
+{% block javascripts %}{{ parent() }}{% endblock %}
+

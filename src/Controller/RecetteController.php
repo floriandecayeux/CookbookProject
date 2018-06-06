@@ -12,9 +12,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use App\Entity\User;
 use App\Entity\Recette;
 use App\Form\RecetteType;
+
 
 
 class RecetteController extends Controller
@@ -167,7 +169,7 @@ class RecetteController extends Controller
 
         } catch (\Exception $e) {
             return $this->render(
-                'recettes/mes_recettes.html.twig',
+                'recette/mes_recettes.html.twig',
                 array(
                     // last username entered by the user
                     'action' => 'recettes_new',
@@ -178,7 +180,71 @@ class RecetteController extends Controller
     }
 
 
+    /**
+     * @Route("/ajout_image", name="ajout_image")
+     */
+    public function ajoutImageRecette(Request $request){
+
+        $request = $this->get('request_stack')->getCurrentRequest();
+
+           $recette = $this->getDoctrine()
+            ->getRepository(Recette::class)
+            ->find(5);
+
+        
+        $form = $this->createForm(RecetteType::class, $recette);
+        $form->handleRequest($request);
+       
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($recette);
+            $em->flush();
+
+
+
+        return $this->render('recette/image.html.twig', array(
+            'form' => $form->createView(), 'recette'=>$recette,
+        ));
+    }
+
+/*
+         //submit
+        try{
+           $image =  $request->request->get('imageRecette[image]');
+         
+
+            $recette->setImage($image);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($recette);
+            $em->flush();
+
+            
+
+        } catch (\Exception $e) {
+            return $this->render(
+                'recette/image.html.twig',
+                array(
+                    // last username entered by the user
+                    'action' => 'recettes_new',
+                    'error'  => true,
+
+                )
+            );
+        }*/
+
+
+     return $this->render('recette/image.html.twig', array(
+            'form' => $form->createView(), 'recette'=>$recette,
+        ));
+
+   
+    }
+
+
 
 
 
 }
+

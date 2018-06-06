@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Entity\Recette;
 use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class RecetteType extends AbstractType
 {
@@ -18,26 +19,7 @@ class RecetteType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('titre', null, array(
-                    'label_attr' => array('class' => 'label'),
-                    'attr'       => array('class' => 'field')))
-                ->add('nbPersonnes', ChoiceType::class, array(
-                    'label_attr' => array('class' => 'label'),
-                    'attr'       => array('class' => 'field'),
-                    'choices'  => range(1,12)))
-                ->add('tempsPreparation', ChoiceType::class, array(
-                    'label_attr' => array('class' => 'label'),
-                    'attr'       => array('class' => 'field'),
-                    'choices'    => range(10,120) ))
-                ->add('categorie', ChoiceType::class, array(
-                    'label_attr' => array('class' => 'label'),
-                    'attr'       => array('class' => 'field'),
-                    'choices'  => array(
-                        'Entrée' => null,
-                        'Plat' => true,
-                        'Dessert' => false,
-                        'Appéritif' => false
-                    )));
+        $builder->add('image', 'Symfony\Component\Form\Extension\Core\Type\FileType', array('label' => 'Image(JPG)'));
            /*     ->add('Temps Préparation',RangeType::class, array(
                     'label_attr' => array('class' => 'MYCLASSFOR_LABEL'),
                     'attr'       => array('class' => 'MYCLASSFOR_INPUTS', 'min' => 10, 'max' => 120)));*/
