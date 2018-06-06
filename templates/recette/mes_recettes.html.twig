@@ -4,105 +4,109 @@
 
 {% block stylesheets %}{{ parent() }}{% endblock %}
 
-{% block header_title %}Bienvenue{% endblock %}
-{% block header_subtitle %}Quelle recette recherchez-vous ?{% endblock %}
+{% block header_title %}Votre espace personnel{% endblock %}
+{% block header_subtitle %}Consultez et ajoutez vos recettes !{% endblock %}
 {% block header_tabs %}
-	<li><a href="">Top</a></li>
+	<li {% if action is defined and action == 'recettes' %}class="is-active"{% endif %}><a href="{{ path('mes_recettes') }}">Mes recettes</a></li>
+    <li {% if action is defined and action == 'recettes_new' %}class="is-active"{% endif %}><a href="{{ path('mes_recettes_new') }}">Ajouter une recette</a></li>
 {% endblock %}
-{% block header_image %}{{ asset('icons/default2.jpg') }}{% endblock %}
+{% block header_image %}{{ asset('icons/default1.jpg') }}{% endblock %}
 
 {% block content %}
 <div class="container">
-	<form action="{{ path('ajout_recette') }}" method="post">
-		<div class="field">
-			<label class="label">Nom de la recette</label>
-			<p class="control has-icons-left has-icons-right">
-				<input class="input {% if error is defined and error %} is-danger{% endif %}" placeholder="Titre" id="username" name="_titre" {% if last_titre is defined %}value="{{ last_titre }}"{% endif %} required>
-				<span class="icon is-small is-left">
+    {% if action is defined and action == 'recettes' %}
+        {% if recettes is defined %}
+            {% for recette in recettes %}
+                <div class="card column is-3">
+                    <div class="card-image">
+                        <figure class="image is-4by3">
+                            <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+                        </figure>
+                    </div>
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-content">
+                                <p class="title is-4">{{ recette.titre }}</p>
+                                <p class="subtitle is-6">@johnsmith</p>
+                            </div>
+                        </div>
+
+                        <div class="content">
+
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% else %}
+        <form class="column is-6" action="{{ path('ajout_recette') }}" method="post">
+            <div class="field">
+                <label class="label">Nom de la recette</label>
+                <p class="control has-icons-left has-icons-right">
+                    <input class="input {% if error is defined and error %} is-danger{% endif %}" placeholder="Titre" id="username" name="_titre" {% if last_titre is defined %}value="{{ last_titre }}"{% endif %} required>
+                    <span class="icon is-small is-left">
 				  <i class="fas fa-book"></i>
 				</span>
-			</p>
-		</div>
-		<div class="field">
-			<label class="label">Type de recette</label>
-			<div class="control has-icons-left">
-				<div class="select">
-					<select id="categorie" name="_categorie">
-						<option value="entree" selected>Entrée</option>
-						<option value="plat">Plat</option>
-						<option value="desert">Dessert</option>
-					</select>
-				</div>
-				<span class="icon is-left">
+                </p>
+            </div>
+            <div class="field">
+                <label class="label">Type de recette</label>
+                <div class="control has-icons-left">
+                    <div class="select">
+                        <select id="categorie" name="_categorie">
+                            <option value="entree" selected>Entrée</option>
+                            <option value="plat">Plat</option>
+                            <option value="desert">Dessert</option>
+                        </select>
+                    </div>
+                    <span class="icon is-left">
 					<i class="fas fa-align-left"></i>
 				</span>
-			</div>
-		</div>
-		<div class="field">
-			<label class="label">Nombre de personnes</label>
-			<div class="control has-icons-left">
-				<div class="select">
-					<select id="nbPersonnes" name="_nbPersonnes">
-						{% for i in range(1,12,1) %}
-							<option value="{{i}}">{{i}}</option>
-						{% endfor %}
-					</select>
-				</div>
-				<span class="icon is-left">
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Nombre de personnes</label>
+                <div class="control has-icons-left">
+                    <div class="select">
+                        <select id="nbPersonnes" name="_nbPersonnes">
+                            {% for i in range(1,12,1) %}
+                                <option value="{{i}}">{{i}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <span class="icon is-left">
                     <i class="fas fa-user"></i>
                 </span>
-			</div>
-		</div>
-		<div class="field">
-			<label class="label">Temps de préparation</label>
-			<div class="control has-icons-left">
-				<div class="select">
-					<select id="tempsPrepa" name="_tempsPrepa">
-						{% for i in range(5,120,5) %}
-							<option value="{{i}}">{{i}}</option>
-						{% endfor %}
-					</select>
-				</div>
-				<span class="icon is-left">
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Temps de préparation</label>
+                <div class="control has-icons-left">
+                    <div class="select">
+                        <select id="tempsPrepa" name="_tempsPrepa">
+                            {% for i in range(5,120,5) %}
+                                <option value="{{i}}">{{i}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <span class="icon is-left">
                     <i class="fas fa-clock"></i>
                 </span>
-			</div>
-		</div>
-		{% if error is defined and error %}
-			<p class="help is-danger">La recette n'a pas pu être ajoutée.</p>
-		{% endif %}
-		<hr>
-		<div class="field is-grouped is-grouped-right">
-			<p class="control">
-				<button type="submit" class="button is-danger">
-					Publier ma recette
-				</button>
-			</p>
-		</div>
-	</form>
-	{% if recettes is defined %}
-		{% for recette in recettes %}
-			<div class="card column is-3">
-				<div class="card-image">
-					<figure class="image is-4by3">
-						<img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-					</figure>
-				</div>
-				<div class="card-content">
-					<div class="media">
-						<div class="media-content">
-							<p class="title is-4">{{ recette.titre }}</p>
-							<p class="subtitle is-6">@johnsmith</p>
-						</div>
-					</div>
-
-					<div class="content">
-
-					</div>
-				</div>
-			</div>
-		{% endfor %}
-	{% endif %}
+                </div>
+            </div>
+            {% if error is defined and error %}
+                <p class="help is-danger">La recette n'a pas pu être ajoutée.</p>
+            {% endif %}
+            <hr>
+            <div class="field is-grouped is-grouped-right">
+                <p class="control">
+                    <button type="submit" class="button is-danger">
+                        Publier ma recette
+                    </button>
+                </p>
+            </div>
+        </form>
+    {% endif %}
 </div>
 {% endblock %}
 

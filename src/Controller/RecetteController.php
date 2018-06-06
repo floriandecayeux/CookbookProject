@@ -116,8 +116,24 @@ class RecetteController extends Controller
 
          return $this->render('recette/mes_recettes.html.twig', array(
             'recettes' => $recettes,
-       
+             'action' => 'recettes'
         )); 
+    }
+
+    /**
+     * @Route("/mes_recettes_new", name="mes_recettes_new")
+     */
+    public function mesRecetteNew(Request $request){
+
+
+        $user= $this->getUser();
+
+        $recettes = $user->getRecettes();
+
+        return $this->render('recette/mes_recettes.html.twig', array(
+            'recettes' => $recettes,
+            'action' => 'recettes_new'
+        ));
     }
 
 
