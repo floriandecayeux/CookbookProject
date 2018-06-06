@@ -70,13 +70,13 @@
                     <a class="navbar-item is-white" href="{{ path('index') }}">
                         <img src="{{ asset('icons/logo.png') }}" alt="Cookbook">
                     </a>
-                    <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
+                    <div id="navbar-burger-id" class="navbar-burger burger" data-target="navbarExampleTransparentExample" onclick="toggleBurgerMenu()">
                         <span></span>
                         <span></span>
                         <span></span>
                     </div>
                 </div>
-                <div class="navbar-menu">
+                <div id="navbar-menu-id" class="navbar-menu">
                     <div class="navbar-start">
                         <a class="navbar-item" href="">Top recettes</a>
                     </div>
