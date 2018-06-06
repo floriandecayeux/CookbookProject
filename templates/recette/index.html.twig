@@ -7,15 +7,6 @@
 {% block body %}
     {{ parent() }}
 
-
-	{% if form is defined %}
-		{{ form_start(form) }}
-			
-	        {{ form_widget(form) }}
-	        <input type="submit" value="Create" />
-	    {{ form_end(form) }}
-	{% endif %}
-
 	<form action="{{ path('ajout_recette') }}" method="post">
     <label for="titre">Titre:</label>
     <input type="text" id="titre" name="_titre" value="" />
