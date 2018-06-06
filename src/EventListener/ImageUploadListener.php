@@ -30,7 +30,7 @@ class ImageUploadListener
         $this->uploadFile($entity);
     }
 
-    private function uploadFile($entity)
+    public function uploadFile($entity)
     {
         // upload only works for Product entities
         if (!$entity instanceof Recette) {

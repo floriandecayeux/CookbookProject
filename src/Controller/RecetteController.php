@@ -16,6 +16,8 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use App\Entity\User;
 use App\Entity\Recette;
 use App\Form\RecetteType;
+use App\ImageUpload;
+use App\EventListener\ImageUploadListener;
 
 
 
@@ -191,54 +193,37 @@ class RecetteController extends Controller
             ->getRepository(Recette::class)
             ->find(5);
 
-        
-        $form = $this->createForm(RecetteType::class, $recette);
-        $form->handleRequest($request);
-       
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($recette);
-            $em->flush();
-
-
-
-        return $this->render('recette/image.html.twig', array(
-            'form' => $form->createView(), 'recette'=>$recette,
-        ));
-    }
-
-/*
-         //submit
+       //submit
         try{
-           $image =  $request->request->get('imageRecette[image]');
-         
 
-            $recette->setImage($image);
+            $file = $request->files->get('new_recette');
+            $recette->setImage($file['image']);
+
+            $upload = new ImageUpload('../public/uploads/images');
+            $ImageUploadListener = new ImageUploadListener($upload);
+            $ImageUploadListener->uploadFile($recette);
+
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($recette);
             $em->flush();
 
-            
+
+            return $this->render('recette/mes_recettes.html.twig');
+
+        //   return $this->redirectToRoute('mes_recettes');
 
         } catch (\Exception $e) {
             return $this->render(
                 'recette/image.html.twig',
                 array(
                     // last username entered by the user
-                    'action' => 'recettes_new',
-                    'error'  => true,
+                    'action' => 'ajout_image',
+                    'error'  => $e->getMessage(),
 
                 )
             );
-        }*/
-
-
-     return $this->render('recette/image.html.twig', array(
-            'form' => $form->createView(), 'recette'=>$recette,
-        ));
-
+        }
    
     }
 
