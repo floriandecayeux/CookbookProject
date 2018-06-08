@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mes Recettes{% endblock %}
+{% block title %}{{ parent() }} - Mes recettes{% endblock %}
 
 {% block stylesheets %}{{ parent() }}{% endblock %}
 
 {% block header_title %}Votre espace personnel{% endblock %}
-{% block header_subtitle %}Consultez et ajoutez vos recettes !{% endblock %}
+{% block header_subtitle %}Consultez et ajoutez vos propres recettes !{% endblock %}
 {% block header_tabs %}
 	<li {% if action is defined and action == 'recettes' %}class="is-active"{% endif %}><a href="{{ path('mes_recettes') }}">Mes recettes</a></li>
     <li {% if action is defined and action == 'recettes_new' %}class="is-active"{% endif %}><a href="{{ path('mes_recettes_new') }}">Ajouter une recette</a></li>
@@ -14,32 +14,57 @@
 
 {% block content %}
 <div class="container">
+    <div class="columns is-multiline">
     {% if action is defined and action == 'recettes' %}
         {% if recettes is defined %}
             {% for recette in recettes %}
-                <div class="card column is-3">
-                    <div class="card-image">
-                        <figure class="image is-4by3">
-                            <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-                        </figure>
-                    </div>
-                    <div class="card-content">
-                        <div class="media">
-                            <div class="media-content">
-                                <p class="title is-4">{{ recette.titre }}</p>
-                                <p class="subtitle is-6">@johnsmith</p>
+                <div class="column is-4">
+                    <div class="card">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img src="{{ asset('uploads/images/'~recette.image) }}" alt="Placeholder image">
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-content">
+                                    <p class="title is-4">{{ recette.titre }}</p>
+                                    <p class="subtitle is-6"><a>@{{ recette.user.username }}</a></p>
+                                </div>
                             </div>
                         </div>
-
-                        <div class="content">
-
-                        </div>
+                        <footer class="card-footer">
+                            <div class="card-footer-item">
+                                    <span class="icon is-small" style="margin-right: 4px;">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                    {{ recette.nbPersonnes }}
+                            </div>
+                            <div class="card-footer-item">
+                                    <span class="icon is-small" style="margin-right: 4px;">
+                                      <i class="fas fa-clock"></i>
+                                    </span>
+                                {{ recette.tempsPreparation }}
+                            </div>
+                            <div class="card-footer-item">
+                                    <span class="icon is-small" style="margin-right: 4px;">
+                                      <i class="fas fa-star"></i>
+                                    </span>
+                                0
+                            </div>
+                            <div class="card-footer-item">
+                                    <span class="icon is-small" style="margin-right: 4px;">
+                                      <i class="fas fa-comment"></i>
+                                    </span>
+                                0
+                            </div>
+                        </footer>
                     </div>
                 </div>
             {% endfor %}
         {% endif %}
     {% else %}
-        <form class="column is-6" action="{{ path('ajout_recette') }}" method="post">
+        <form enctype="multipart/form-data" class="column is-6" action="{{ path('ajout_recette') }}" method="post" >
             <div class="field">
                 <label class="label">Nom de la recette</label>
                 <p class="control has-icons-left has-icons-right">
@@ -94,8 +119,13 @@
                 </span>
                 </div>
             </div>
+            <div class="field">
+                <label class="label"></label>
+                <input id="new_recette_image" name="new_recette[image]" required="required" type="file">
+            </div>
             {% if error is defined and error %}
-                <p class="help is-danger">La recette n'a pas pu être ajoutée.</p>
+                <p class="help is-danger">{{ message }}</p>
+                <p class="help is-danger">{{ dump(request) }}</p>
             {% endif %}
             <hr>
             <div class="field is-grouped is-grouped-right">
@@ -107,6 +137,7 @@
             </div>
         </form>
     {% endif %}
+    </div>
 </div>
 {% endblock %}
 

@@ -61,7 +61,7 @@ class Recette
 
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      *
      * @Assert\NotBlank(message="Ajouter une image jpg")
      * @Assert\File(mimeTypes={ "image/jpeg" })

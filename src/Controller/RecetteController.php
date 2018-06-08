@@ -147,26 +147,28 @@ class RecetteController extends Controller
      */
     public function ajoutRecette(Request $request){
 
-        $request = $this->get('request_stack')->getCurrentRequest();
-
-        
     //submit
         try{
-           $titre =  $request->request->get('_titre');
+           $titre = $request->request->get('_titre');
            $categorie = $request->request->get('_categorie');
            $nbPersonnes = $request->request->get('_nbPersonnes');
            $tempsPreparation= $request->request->get('_tempsPrepa');
+           $file = $request->files->get('new_recette');
 
             $recette = new Recette($this->getUser());
             $recette->setTitre($titre);
             $recette->setCategorie($categorie);
-            $recette->setNbPersonnes($nbPersonnes); 
-            $recette->setTempsPreparation($tempsPreparation); 
+            $recette->setNbPersonnes($nbPersonnes);
+            $recette->setTempsPreparation($tempsPreparation);
+            $recette->setImage($file['image']);
+
+            $upload = new ImageUpload('../public/uploads/images');
+            $ImageUploadListener = new ImageUploadListener($upload);
+            $ImageUploadListener->uploadFile($recette);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($recette);
             $em->flush();
-
             return $this->redirectToRoute('mes_recettes');
 
         } catch (\Exception $e) {
@@ -175,56 +177,12 @@ class RecetteController extends Controller
                 array(
                     // last username entered by the user
                     'action' => 'recettes_new',
-                    'error'  => true
+                    'error'  => true,
+                    'message' => $e->getMessage(),
+                    'request' => $request
                 )
             );
         }
-    }
-
-
-    /**
-     * @Route("/ajout_image", name="ajout_image")
-     */
-    public function ajoutImageRecette(Request $request){
-
-        $request = $this->get('request_stack')->getCurrentRequest();
-
-           $recette = $this->getDoctrine()
-            ->getRepository(Recette::class)
-            ->find(5);
-
-       //submit
-        try{
-
-            $file = $request->files->get('new_recette');
-            $recette->setImage($file['image']);
-
-            $upload = new ImageUpload('../public/uploads/images');
-            $ImageUploadListener = new ImageUploadListener($upload);
-            $ImageUploadListener->uploadFile($recette);
-
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($recette);
-            $em->flush();
-
-
-            return $this->render('recette/mes_recettes.html.twig');
-
-        //   return $this->redirectToRoute('mes_recettes');
-
-        } catch (\Exception $e) {
-            return $this->render(
-                'recette/image.html.twig',
-                array(
-                    // last username entered by the user
-                    'action' => 'ajout_image',
-                    'error'  => $e->getMessage(),
-
-                )
-            );
-        }
-   
     }
 
 
