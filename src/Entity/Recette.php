@@ -45,7 +45,6 @@ class Recette
      */
     private $keyword;
 
-
     
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="recettes")
@@ -74,6 +73,22 @@ class Recette
      */
     private $etapes;
 
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Commentaire", mappedBy="recette")
+     */
+    protected $commentaires;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Commentaire", mappedBy="recette")
+     */
+    protected $notes;
+
+
+
+
+
     public function getImage()
     {
         return $this->image;
@@ -95,6 +110,9 @@ class Recette
    
     public function __construct($user){
         $this->user = $user;
+        $this->commentaires = new ArrayCollection();
+        $this->notes = new ArrayCollection();
+        $this->ingredients = new ArrayCollection();
         // may not be needed, see section on salt below
         // $this->salt = md5(uniqid('', true));
     }
@@ -223,28 +241,24 @@ class Recette
         return $this->ingredients;
     }
 
-    public function addIngredient(Recette $ingredient): self
-    {
-        if (!$this->ingredients->contains($ingredient)) {
-            $this->ingredients[] = $ingredient;
-            $ingredient->setUser($this);
-        }
 
-        return $this;
+    /**
+     * @return Collection|Recette[]
+     */
+    public function getCommentaires(): Collection
+    {
+        return $this->commentaires;
     }
 
-    public function removeIngredient(Recette $ingredient): self
-    {
-        if ($this->ingredients->contains($ingredient)) {
-            $this->ingredients->removeElement($ingredient);
-            // set the owning side to null (unless already changed)
-            if ($ingredient->getUser() === $this) {
-                $ingredient->setUser(null);
-            }
-        }
 
-        return $this;
+     /**
+     * @return Collection|Recette[]
+     */
+    public function getNotes(): Collection
+    {
+        return $this->notes;
     }
+
 
     /**
      * @return mixed
