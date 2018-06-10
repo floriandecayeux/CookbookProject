@@ -23,14 +23,20 @@
                     <div class="card">
                         <div class="card-image">
                             <figure class="image is-4by3">
-                                <img src="{{ asset('uploads/images/'~recette.image) }}" alt="Placeholder image">
+                                <img src="
+                                    {% if recette.image is null %}
+                                        https://bulma.io/images/placeholders/1280x960.png
+                                    {% else %}
+                                        {{ asset('uploads/images/'~recette.image) }}
+                                    {% endif %}
+                                " alt="Placeholder image">
                             </figure>
                         </div>
                         <div class="card-content">
                             <div class="media">
                                 <div class="media-content">
                                     <p class="title is-4">{{ recette.titre }}</p>
-                                    <p class="subtitle is-6"><a>@{{ recette.user.username }}</a></p>
+                                    <p class="subtitle is-6">publié par<a> @{{ recette.user.username }}</a></p>
                                 </div>
                             </div>
                         </div>
@@ -43,7 +49,7 @@
                             </div>
                             <div class="card-footer-item">
                                     <span class="icon is-small" style="margin-right: 4px;">
-                                      <i class="fas fa-clock"></i>
+                                      <i class="fas fa-stopwatch"></i>
                                     </span>
                                 {{ recette.tempsPreparation }}
                             </div>
@@ -60,7 +66,7 @@
                                 0
                             </div>
                         </footer>
-                    </div>
+                        </div>
                 </div>
             {% endfor %}
             </div>
