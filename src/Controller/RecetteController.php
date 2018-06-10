@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use App\Entity\User;
 use App\Entity\Recette;
+use App\Entity\Ingredient;
 use App\Form\RecetteType;
 use App\ImageUpload;
 use App\EventListener\ImageUploadListener;
@@ -149,10 +150,14 @@ class RecetteController extends Controller
 
     //submit
         try{
+            $em = $this->getDoctrine()->getManager();
+
            $titre = $request->request->get('_titre');
            $categorie = $request->request->get('_categorie');
            $nbPersonnes = $request->request->get('_nbPersonnes');
            $tempsPreparation= $request->request->get('_tempsPrepa');
+           $ingredients = $request->request->get('ingredients');
+           $etapes = $request->request->get('_etapes');
            $file = $request->files->get('new_recette');
 
             $recette = new Recette($this->getUser());
@@ -161,14 +166,25 @@ class RecetteController extends Controller
             $recette->setNbPersonnes($nbPersonnes);
             $recette->setTempsPreparation($tempsPreparation);
             $recette->setImage($file['image']);
+            $recette->setEtapes($etapes);
 
             $upload = new ImageUpload('../public/uploads/images');
             $ImageUploadListener = new ImageUploadListener($upload);
             $ImageUploadListener->uploadFile($recette);
 
-            $em = $this->getDoctrine()->getManager();
             $em->persist($recette);
             $em->flush();
+
+            foreach($ingredients as $ingredientElem){
+                $ingredient = new Ingredient();
+                $ingredient->setNom($ingredientElem[0]);
+                $ingredient->setQuantite($ingredientElem[1]);
+                $ingredient->setUnite($ingredientElem[2]);
+                $ingredient->setRecette($recette);
+                $em->persist($ingredient);
+                $em->flush();
+
+            }
             return $this->redirectToRoute('mes_recettes');
 
         } catch (\Exception $e) {

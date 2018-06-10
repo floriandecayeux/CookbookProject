@@ -33,7 +33,7 @@ class Ingredient
 
 
      /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Recette", inversedBy="ingredients")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Recette", inversedBy="ingredients", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $recette;
@@ -83,4 +83,13 @@ class Ingredient
     public function getRecette(){
         return $this->recette;
     }
+
+    /**
+     * @param mixed $recette
+     */
+    public function setRecette($recette)
+    {
+        $this->recette = $recette;
+    }
+
 }

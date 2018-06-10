@@ -68,6 +68,12 @@ class Recette
      */
     private $image;
 
+
+    /**
+     * @ORM\Column(type="string", length=3000)
+     */
+    private $etapes;
+
     public function getImage()
     {
         return $this->image;
@@ -238,6 +244,22 @@ class Recette
         }
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEtapes()
+    {
+        return $this->etapes;
+    }
+
+    /**
+     * @param mixed $etapes
+     */
+    public function setEtapes($etapes)
+    {
+        $this->etapes = $etapes;
     }
   
 }

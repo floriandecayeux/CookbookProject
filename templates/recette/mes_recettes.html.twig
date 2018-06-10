@@ -14,9 +14,10 @@
 
 {% block content %}
 <div class="container">
-    <div class="columns is-multiline">
+
     {% if action is defined and action == 'recettes' %}
         {% if recettes is defined %}
+            <div class="columns is-multiline">
             {% for recette in recettes %}
                 <div class="column is-4">
                     <div class="card">
@@ -62,82 +63,161 @@
                     </div>
                 </div>
             {% endfor %}
+            </div>
         {% endif %}
     {% else %}
-        <form enctype="multipart/form-data" class="column is-6" action="{{ path('ajout_recette') }}" method="post" >
-            <div class="field">
-                <label class="label">Nom de la recette</label>
-                <p class="control has-icons-left has-icons-right">
-                    <input class="input {% if error is defined and error %} is-danger{% endif %}" placeholder="Titre" id="username" name="_titre" {% if last_titre is defined %}value="{{ last_titre }}"{% endif %} required>
-                    <span class="icon is-small is-left">
-				  <i class="fas fa-book"></i>
-				</span>
-                </p>
-            </div>
-            <div class="field">
-                <label class="label">Type de recette</label>
-                <div class="control has-icons-left">
-                    <div class="select">
-                        <select id="categorie" name="_categorie">
-                            <option value="entree" selected>Entrée</option>
-                            <option value="plat">Plat</option>
-                            <option value="desert">Dessert</option>
-                        </select>
+
+        <form class="columns is-multiline" style="padding-left: 7px" enctype="multipart/form-data" action="{{ path('ajout_recette') }}" method="post" >
+                <div class="column is-12">
+                    <h4 class="title is-4">
+                        <span class="icon">
+                            <i class="fas fa-info-circle"></i>
+                        </span>
+                        Informations sur la recette
+                    </h4>
+                    <div class="field has-addons">
+                        <p class="control has-icons-left">
+                            <input class="input" placeholder="Nom de la recette" id="username" name="_titre" required>
+                            <span class="icon is-small is-left">
+                              <i class="fas fa-book"></i>
+                            </span>
+                        </p>
+                        <div class="file">
+                            <label class="file-label">
+                                <input class="file-input" id="new_recette_image" name="new_recette[image]" type="file">
+                                <span class="file-cta">
+                                  <span class="file-icon">
+                                    <i class="fas fa-upload"></i>
+                                  </span>
+                                  <span class="file-label">
+                                    Aperçu
+                                  </span>
+                                </span>
+                            </label>
+                        </div>
                     </div>
-                    <span class="icon is-left">
-					<i class="fas fa-align-left"></i>
-				</span>
+                    <div class="field">
+                        <div class="control has-icons-left">
+                            <div class="select">
+                                <select id="categorie" name="_categorie">
+                                    <option value="entree" selected>Entrée</option>
+                                    <option value="plat">Plat</option>
+                                    <option value="desert">Dessert</option>
+                                </select>
+                            </div>
+                            <span class="icon is-left">
+                                <i class="fas fa-align-left"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control has-icons-left">
+                            <div class="select">
+                                <select id="nbPersonnes" name="_nbPersonnes">
+                                    {% for i in range(1,12,1) %}
+                                        <option value="{{i}}">{{i}} pers.</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <span class="icon is-left">
+                            <i class="fas fa-user"></i>
+                        </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control has-icons-left">
+                            <div class="select">
+                                <select id="tempsPrepa" name="_tempsPrepa">
+                                    {% for i in range(5,120,5) %}
+                                        <option value="{{i}}">{{i}} min</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <span class="icon is-left">
+                            <i class="fas fa-stopwatch"></i>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+            <div class="column is-12"><hr></div>
+                <div class="column is-12">
+                    <h4 class="title is-4">
+                        <span class="icon">
+                            <i class="fas fa-lemon"></i>
+                        </span>
+                        Ingrédients
+                    </h4>
+                    <table class="table is-striped is-hoverable">
+                        <thead>
+                        <tr>
+                            <th width="300px">Nom</th>
+                            <th>Quantité</th>
+                            <th>Unité</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th width="300px"></th>
+                                <th></th>
+                                <th></th>
+                                <th>
+                                    <div class="button" onclick="addIngredientNode()">
+                                      <span class="icon is-left">
+                                        <i class="fas fa-plus"></i>
+                                      </span>
+                                    </div>
+                                </th>
+                            </tr>
+                        </tfoot>
+                        <tbody id="ingredients">
+                        <tr>
+                            <td><input type='text' class='input' placeholder='Salade, tomate, oignon, ...' name='ingredients[0][]'></td>
+                            <td><input type='number' min='0' value='0' class='input' name='ingredients[0][]'></td>
+                            <td><input type='text' class='input' placeholder='kg, ...' name='ingredients[0][]'></td>
+                            <td>
+                                <div class="button" onclick="deleteIngredientNode(this)">
+                                  <span class="icon is-left">
+                                    <i class="fas fa-minus"></i>
+                                  </span>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            <div class="column is-12"><hr></div>
+                <div class="column is-12">
+                    <h4 class="title is-4">
+                        <span class="icon">
+                            <i class="fas fa-play-circle"></i>
+                        </span>
+                        Étapes
+                    </h4>
+                    <div class="field">
+                        <div class="control">
+                            <textarea name="_etapes" class="textarea" placeholder="Décrivez les différentes étapes à suivre pour réaliser votre recette..." rows="10" required></textarea>
+                        </div>
+                    </div>
+                </div>
+
+            <div class="column is-12">
+                <hr>
+                <div class="field is-grouped is-grouped-right">
+                    <p class="control">
+                        <button type="submit" class="button is-danger">
+                            Publier ma recette
+                        </button>
+                    </p>
                 </div>
             </div>
-            <div class="field">
-                <label class="label">Nombre de personnes</label>
-                <div class="control has-icons-left">
-                    <div class="select">
-                        <select id="nbPersonnes" name="_nbPersonnes">
-                            {% for i in range(1,12,1) %}
-                                <option value="{{i}}">{{i}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <span class="icon is-left">
-                    <i class="fas fa-user"></i>
-                </span>
-                </div>
-            </div>
-            <div class="field">
-                <label class="label">Temps de préparation</label>
-                <div class="control has-icons-left">
-                    <div class="select">
-                        <select id="tempsPrepa" name="_tempsPrepa">
-                            {% for i in range(5,120,5) %}
-                                <option value="{{i}}">{{i}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <span class="icon is-left">
-                    <i class="fas fa-clock"></i>
-                </span>
-                </div>
-            </div>
-            <div class="field">
-                <label class="label"></label>
-                <input id="new_recette_image" name="new_recette[image]" required="required" type="file">
-            </div>
+
             {% if error is defined and error %}
                 <p class="help is-danger">{{ message }}</p>
                 <p class="help is-danger">{{ dump(request) }}</p>
             {% endif %}
-            <hr>
-            <div class="field is-grouped is-grouped-right">
-                <p class="control">
-                    <button type="submit" class="button is-danger">
-                        Publier ma recette
-                    </button>
-                </p>
-            </div>
         </form>
     {% endif %}
-    </div>
 </div>
 {% endblock %}
 
