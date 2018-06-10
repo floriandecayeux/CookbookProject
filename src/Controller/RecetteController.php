@@ -59,14 +59,15 @@ class RecetteController extends Controller
     }
 
    /**
-     * @Route("/recette_show", name="recette_show")
+     * @Route("/recette_show/{id}", name="recette_show")
      */
-    public function showAction($recette)
+    public function showAction($id)
     {
-        
-        
+        $recette = $this->getDoctrine()
+            ->getRepository(Recette::class)
+            ->find($id);
 
-        return $this->render('recette/index.html.twig', array(
+        return $this->render('recette/show.html.twig', array(
             'recette' => $recette
         ));
 

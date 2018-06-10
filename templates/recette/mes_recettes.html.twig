@@ -23,13 +23,15 @@
                     <div class="card">
                         <div class="card-image">
                             <figure class="image is-4by3">
-                                <img src="
-                                    {% if recette.image is null %}
-                                        https://bulma.io/images/placeholders/1280x960.png
-                                    {% else %}
-                                        {{ asset('uploads/images/'~recette.image) }}
-                                    {% endif %}
-                                " alt="Placeholder image">
+                                <a href="{{ path('recette_show', {'id': recette.id}) }}">
+                                        <img src="
+                                        {% if recette.image is null %}
+                                            https://bulma.io/images/placeholders/1280x960.png
+                                        {% else %}
+                                            {{ asset('uploads/images/'~recette.image) }}
+                                        {% endif %}
+                                    " alt="Placeholder image">
+                                </a>
                             </figure>
                         </div>
                         <div class="card-content">
@@ -106,9 +108,9 @@
                         <div class="control has-icons-left">
                             <div class="select">
                                 <select id="categorie" name="_categorie">
-                                    <option value="entree" selected>Entrée</option>
-                                    <option value="plat">Plat</option>
-                                    <option value="desert">Dessert</option>
+                                    <option value="Entree" selected>Entrée</option>
+                                    <option value="Plat">Plat</option>
+                                    <option value="Dessert">Dessert</option>
                                 </select>
                             </div>
                             <span class="icon is-left">

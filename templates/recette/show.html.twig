@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - {{ recette.titre }}{% endblock %}
+
+{% block stylesheets %}{{ parent() }}{% endblock %}
+{% block header_title %}{{ recette.titre }}{% endblock %}
+{% block header_subtitle %}publié par<a> @{{ recette.user.username }}</a>{% endblock %}
+{% block header_tabs %}
+    <li {% if action is defined and action == 'recettes' %}class="is-active"{% endif %}><a href="{{ path('mes_recettes') }}">Consulter</a></li>
+{% endblock %}
+{% block header_image %}
+    {% if recette.image is null %}
+        https://bulma.io/images/placeholders/1280x960.png
+    {% else %}
+        {{ asset('uploads/images/'~recette.image) }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="columns is-multiline">
+        <div class="column is-4">
+            <div class="box">
+                    <figure class="level-item image is-4by3">
+                        <img src="
+                    {% if recette.image is null %}
+                        https://bulma.io/images/placeholders/1280x960.png
+                    {% else %}
+                        {{ asset('uploads/images/'~recette.image) }}
+                    {% endif %}
+                 ">
+                    </figure>
+
+            <table class="table is-hoverable">
+                <tr>
+                    <th>
+                        <span class="icon is-small" style="margin-right: 4px;">
+                            <i class="fas fa-align-left"></i>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="icon is-small" style="margin-right: 4px;">
+                            <i class="fas fa-user"></i>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="icon is-small" style="margin-right: 4px;">
+                            <i class="fas fa-stopwatch"></i>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="icon is-small" style="margin-right: 4px;">
+                            <i class="fas fa-star"></i>
+                        </span>
+                    </th>
+                </tr>
+                <tr>
+                    <td>{{ recette.categorie }}</td>
+                    <td>{{ recette.nbPersonnes }} pers.</td>
+                    <td>{{ recette.tempsPreparation }} min</td>
+                    <td>0</td>
+                </tr>
+            </table>
+            </div>
+        </div>
+
+        <div class="column is-6">
+
+        </div>
+        <div class="column is-6">
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}{{ parent() }}{% endblock %}
+
