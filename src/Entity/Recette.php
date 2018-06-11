@@ -83,7 +83,7 @@ class Recette
 
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Commentaire", mappedBy="recette")
+     * @ORM\OneToMany(targetEntity="App\Entity\Note", mappedBy="recette")
      */
     protected $notes;
 
@@ -253,10 +253,10 @@ class Recette
     }
 
 
-     /**
-     * @return Collection|Recette[]
+    /**
+     * @return mixed
      */
-    public function getNotes(): Collection
+    public function getNotes()
     {
         return $this->notes;
     }
@@ -276,6 +276,19 @@ class Recette
     public function setEtapes($etapes)
     {
         $this->etapes = $etapes;
+    }
+
+    public function getNoteMoyenne(){
+        $total = 0; $cpt = 0;
+        foreach ($this->notes as $note) {
+            $total+=$note->getNote();
+            $cpt++;
+        }
+        unset($note);
+
+        if($cpt>0){$avg = $total/$cpt;}
+        else {$avg = 0;}
+        return round($avg,1);
     }
   
 }

@@ -40,19 +40,27 @@ class Note
         return $this->id;
     }
 
-    public function getUser(): ?string
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
     {
         return $this->user;
     }
 
-    public function setUser(string $user): self
+    /**
+     * @param mixed $user
+     */
+    public function setUser(User $user)
     {
         $this->user = $user;
-
-        return $this;
     }
 
-    public function getNote(): ?int
+    /**
+     * @return mixed
+     */
+    public function getNote()
     {
         return $this->note;
     }

@@ -80,7 +80,7 @@
                             <span class="icon is-small">
                                 <i class="fas fa-star" style="margin-right: 1rem"></i>
                             </span>
-                            0
+                            {{ recette.noteMoyenne }}
                         </p>
                     </div>
                 </div>
@@ -127,18 +127,33 @@
                     Commentaires
                 </h4>
                 {% for commentaire in recette.commentaires %}
-                    <div class="field is-horizontal">
-                        <div class="field-label is-normal">
-                            <label class="label">{{ commentaire.user.username }}</label>
-                        </div>
-                        <div class="field-body">
-                            <div class="box">
-                                <div class="content">
-                                    {{ commentaire.commentaire }}
+                    {% if commentaire.user == app.user %}
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                                <label class="label">{{ commentaire.user.username }}</label>
+                            </div>
+                            <div class="field-body">
+                                <div class="box">
+                                    <div class="content">
+                                        {{ commentaire.commentaire }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    {% else %}
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                                <label class="label">{{ commentaire.user.username }}</label>
+                            </div>
+                            <div class="field-body">
+                                <div class="box">
+                                    <div class="content">
+                                        {{ commentaire.commentaire }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
                 {% endfor %}
                 <form action="{{ path('ajout_commentaire', {'id': recette.id}) }}" method="post">
                     <div class="field is-horizontal">
@@ -168,6 +183,38 @@
                         </div>
                     </div>
                 </form>
+            </div>
+        </div>
+        <div class="column is-4">
+            <div class="content" style="padding-left: 1rem;">
+                <p class="has-text-weight-bold has-text-centered">Notez cette recette</p>
+                <p class="has-text-centered stars">
+                    <a href="{{ path('ajout_note', {'id': recette.id, 'note': 1}) }}">
+                        <span class="icon is-small">
+                          <i class="fas fa-star"></i>
+                        </span>
+                    </a>
+                    <a href="{{ path('ajout_note', {'id': recette.id, 'note': 2}) }}">
+                        <span class="icon is-small">
+                          <i class="fas fa-star"></i>
+                        </span>
+                    </a>
+                    <a href="{{ path('ajout_note', {'id': recette.id, 'note': 3}) }}">
+                        <span class="icon is-small">
+                          <i class="fas fa-star"></i>
+                        </span>
+                    </a>
+                    <a href="{{ path('ajout_note', {'id': recette.id, 'note': 4}) }}">
+                        <span class="icon is-small">
+                          <i class="fas fa-star"></i>
+                        </span>
+                    </a>
+                    <a href="{{ path('ajout_note', {'id': recette.id, 'note': 5}) }}">
+                        <span class="icon is-small">
+                          <i class="fas fa-star"></i>
+                        </span>
+                    </a>
+                </p>
             </div>
         </div>
     </div>
