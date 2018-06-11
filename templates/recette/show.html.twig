@@ -6,7 +6,7 @@
 {% block header_title %}{{ recette.titre }}{% endblock %}
 {% block header_subtitle %}publié par<a> @{{ recette.user.username }}</a>{% endblock %}
 {% block header_tabs %}
-    <li {% if action is defined and action == 'recettes' %}class="is-active"{% endif %}><a href="{{ path('mes_recettes') }}">Consulter</a></li>
+    <li {% if action is defined and action == 'recettes' %}class="is-active"{% endif %}><a href="{{ path('mes_recettes') }}">{{ recette.titre }}</a></li>
 {% endblock %}
 {% block header_image %}
     {% if recette.image is null %}
@@ -19,57 +19,107 @@
 {% block content %}
 <div class="container">
     <div class="columns is-multiline">
-        <div class="column is-4">
-            <div class="box">
-                    <figure class="level-item image is-4by3">
-                        <img src="
-                    {% if recette.image is null %}
-                        https://bulma.io/images/placeholders/1280x960.png
-                    {% else %}
-                        {{ asset('uploads/images/'~recette.image) }}
-                    {% endif %}
-                 ">
-                    </figure>
-
-            <table class="table is-hoverable">
-                <tr>
-                    <th>
-                        <span class="icon is-small" style="margin-right: 4px;">
-                            <i class="fas fa-align-left"></i>
-                        </span>
-                    </th>
-                    <th>
-                        <span class="icon is-small" style="margin-right: 4px;">
-                            <i class="fas fa-user"></i>
-                        </span>
-                    </th>
-                    <th>
-                        <span class="icon is-small" style="margin-right: 4px;">
-                            <i class="fas fa-stopwatch"></i>
-                        </span>
-                    </th>
-                    <th>
-                        <span class="icon is-small" style="margin-right: 4px;">
-                            <i class="fas fa-star"></i>
-                        </span>
-                    </th>
-                </tr>
-                <tr>
-                    <td>{{ recette.categorie }}</td>
-                    <td>{{ recette.nbPersonnes }} pers.</td>
-                    <td>{{ recette.tempsPreparation }} min</td>
-                    <td>0</td>
-                </tr>
-            </table>
+        <div class="column is-5">
+            <figure class="level-item image is-4by3">
+                <img src="
+            {% if recette.image is null %}
+                https://bulma.io/images/placeholders/1280x960.png
+            {% else %}
+                {{ asset('uploads/images/'~recette.image) }}
+            {% endif %}
+         ">
+            </figure>
+        </div>
+        <div class="column is-1"></div>
+        <div class="column is-3">
+            <div class="box has-text-centered">
+                <div>
+                    <p class="heading">Type</p>
+                    <p class="title">{{ recette.categorie }}</p>
+                </div>
+            </div>
+            <div class="box has-text-centered">
+                <div>
+                    <p class="heading">Origine</p>
+                    <p class="title">France</p>
+                </div>
+            </div>
+            <div class="box has-text-centered">
+                <div>
+                    <p class="heading">Auteur</p>
+                    <p class="title">{{ recette.user.username }}</p>
+                </div>
             </div>
         </div>
-
-        <div class="column is-6">
-
+        <div class="column is-3">
+                <div class="box has-text-centered">
+                    <div>
+                        <p class="heading">Nombre de personnes</p>
+                        <p class="title">
+                            <span class="icon is-small">
+                                <i class="fas fa-user" style="margin-right: 1rem"></i>
+                            </span>
+                            {{ recette.nbPersonnes }}
+                        </p>
+                    </div>
+                </div>
+                <div class="box has-text-centered">
+                    <div>
+                        <p class="heading">Temps de préparation</p>
+                        <p class="title">
+                            <span class="icon is-small">
+                                <i class="fas fa-stopwatch" style="margin-right: 1rem"></i>
+                            </span>
+                            {{ recette.tempsPreparation }}
+                        </p>
+                    </div>
+                </div>
+                <div class="box has-text-centered">
+                    <div>
+                        <p class="heading">Note moyenne</p>
+                        <p class="title">
+                            <span class="icon is-small">
+                                <i class="fas fa-star" style="margin-right: 1rem"></i>
+                            </span>
+                            0
+                        </p>
+                    </div>
+                </div>
         </div>
-        <div class="column is-6">
 
+        <div class="column is-12"><hr></div>
+        <div class="column is-5">
+            <div class="box">
+                <h4 class="title is-4">
+                        <span class="icon">
+                            <i class="fas fa-lemon"></i>
+                        </span>
+                    Ingrédients
+                </h4>
+                <table class="table is-striped is-hoverable">
+                    {% for ingredient in recette.ingredients %}
+                        <tr>
+                            <td width="500px">{{ ingredient.nom }}</td>
+                            <td>{{ ingredient.quantite }}</td>
+                            <td>{{ ingredient.unite }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
         </div>
+        <div class="column is-1"></div>
+        <div class="column is-6">
+            <div class="box">
+                <h4 class="title is-4">
+                        <span class="icon">
+                            <i class="fas fa-play"></i>
+                        </span>
+                    Étapes
+                </h4>
+                <textarea class="textarea" rows="15" readonly>{{ recette.etapes }}</textarea>
+            </div>
+        </div>
+        <div class="column is-12"><hr></div>
     </div>
 </div>
 {% endblock %}

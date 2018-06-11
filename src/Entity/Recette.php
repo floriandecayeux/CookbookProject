@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Entity\Ingredient;
+use Doctrine\Common\Collections\ArrayCollection;
 
 
 
@@ -233,10 +235,10 @@ class Recette
     }
 
 
-     /**
-     * @return Collection|Recette[]
+    /**
+     * @return mixed
      */
-    public function getIngredients(): Collection
+    public function getIngredients()
     {
         return $this->ingredients;
     }
