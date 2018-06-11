@@ -245,9 +245,9 @@ class Recette
 
 
     /**
-     * @return Collection|Recette[]
+     * @return mixed
      */
-    public function getCommentaires(): Collection
+    public function getCommentaires()
     {
         return $this->commentaires;
     }

@@ -30,8 +30,7 @@
          ">
             </figure>
         </div>
-        <div class="column is-1"></div>
-        <div class="column is-3">
+        <div class="column is-4">
             <div class="box has-text-centered">
                 <div>
                     <p class="heading">Type</p>
@@ -107,8 +106,7 @@
                 </table>
             </div>
         </div>
-        <div class="column is-1"></div>
-        <div class="column is-6">
+        <div class="column is-7">
             <div class="box">
                 <h4 class="title is-4">
                         <span class="icon">
@@ -120,6 +118,58 @@
             </div>
         </div>
         <div class="column is-12"><hr></div>
+        <div class="column is-8">
+            <div class="content" style="padding-left: 1rem;">
+                <h4 class="title is-4">
+                        <span class="icon">
+                            <i class="fas fa-comment"></i>
+                        </span>
+                    Commentaires
+                </h4>
+                {% for commentaire in recette.commentaires %}
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">{{ commentaire.user.username }}</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="box">
+                                <div class="content">
+                                    {{ commentaire.commentaire }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <form action="{{ path('ajout_commentaire', {'id': recette.id}) }}" method="post">
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">{{ app.user.username }}</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <textarea class="textarea" name="_comment" placeholder="Donnez votre avis sur cette recette..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <!-- Left empty for spacing -->
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <button type="submit" class="button is-danger">
+                                        Envoyer
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

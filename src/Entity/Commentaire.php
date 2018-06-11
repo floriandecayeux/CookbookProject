@@ -40,28 +40,37 @@ class Commentaire
         return $this->id;
     }
 
-    public function getUser(): ?string
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
     {
         return $this->user;
     }
 
-    public function setUser(string $user): self
+    /**
+     * @param mixed $user
+     */
+    public function setUser(User $user)
     {
         $this->user = $user;
-
-        return $this;
     }
 
-    public function getCommentaire(): ?int
+    /**
+     * @return mixed
+     */
+    public function getCommentaire()
     {
         return $this->commentaire;
     }
 
-    public function setCommentaire(int $commentaire): self
+    /**
+     * @param mixed $commentaire
+     */
+    public function setCommentaire($commentaire)
     {
         $this->commentaire = $commentaire;
-
-        return $this;
     }
 
     public function getRecette(){
