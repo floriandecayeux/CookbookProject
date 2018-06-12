@@ -26,9 +26,12 @@ class DefaultController extends Controller
 
         $em = $this->getDoctrine()->getManager();
          $topDesserts = $em->getRepository(Recette::class)->findTopDessert();
- 
+         $topPlats = $em->getRepository(Recette::class)->findTopPlats();
+         $topEntrees = $em->getRepository(Recette::class)->findTopEntrees();
          return $this->render('index.html.twig', array(
-            'topDesserts' => $topDesserts
+            'topDesserts' => $topDesserts,
+            'topPlats' => $topPlats,
+            'topEntrees' => $topEntrees
         ));
 
 

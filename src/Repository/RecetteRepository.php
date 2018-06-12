@@ -42,6 +42,46 @@ class RecetteRepository extends ServiceEntityRepository
 
   
     }
+
+     public function findTopPlats()
+    {
+      
+      $rawSql = "SELECT r.*, AVG(n.note) as moyenne 
+                                         FROM Recette AS r
+                                         LEFT JOIN Note AS n ON r.id = n.recette_id
+                                         WHERE r.categorie = 'plat'
+                                         GROUP BY r.id 
+                                         ORDER BY moyenne DESC
+                                         LIMIT 50
+                                         ";
+
+      $stmt = $this->getEntityManager()->getConnection()->prepare($rawSql);
+      $stmt->execute([]);
+
+    return $stmt->fetchAll();
+
+  
+    }
+
+     public function findTopEntrees()
+    {
+      
+      $rawSql = "SELECT r.*, AVG(n.note) as moyenne 
+                                         FROM Recette AS r
+                                         LEFT JOIN Note AS n ON r.id = n.recette_id
+                                         WHERE r.categorie = 'entree'
+                                         GROUP BY r.id 
+                                         ORDER BY moyenne DESC
+                                         LIMIT 50
+                                         ";
+
+      $stmt = $this->getEntityManager()->getConnection()->prepare($rawSql);
+      $stmt->execute([]);
+
+    return $stmt->fetchAll();
+
+  
+    }
   
 
     /*
