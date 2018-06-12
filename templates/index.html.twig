@@ -4,27 +4,237 @@
 
 {% block stylesheets %}{{ parent() }}{% endblock %}
 
-{% block header_title %}Bienvenue{% endblock %}
-{% block header_subtitle %}Quelle recette recherchez-vous ?{% endblock %}
+{% block header_title %}Bienvenue sur Cookbook{% endblock %}
+{% block header_subtitle %}Voici une selection des meilleures recettes de nos internautes{% endblock %}
 {% block header_tabs %}
-        <li><a href="">Top</a></li>
+        <li class="is-active"><a href="">Top recettes</a></li>
+        <li><a href="">Top internautes</a></li>
 {% endblock %}
-{% block header_image %}{{ asset('icons/default2.jpg') }}{% endblock %}
+{% block header_image %}{{ asset('icons/default4.jpg') }}{% endblock %}
 
 {% block content %}
-    <section class="hero is-white is-fullheight">
-        <div class="hero-body">
-            <div class="container">
-                <h1 class="title">
-                    Primary bold title
-                </h1>
-                <h2 class="subtitle">
-                    Primary bold subtitle
-                </h2>
+    <div class="container">
+        <h4 class="title is-4" style="padding-left: 1rem;">
+            <span class="icon" style="margin-right: 1rem;">
+                <i class="fas fa-star"></i>
+            </span>
+            Top Entrées
+        </h4>
+        <div class='carousel carousel-animated carousel-animate-slide' data-size="3">
+            <div class='carousel-container'>
+                {% for recette in topEntrees %}
+                    <div class="carousel-item">
+                        <div class="card">
+                            <div class="card-image">
+                                <figure class="image is-4by3">
+                                    <a href="{{ path('recette_show', {'id': recette.id}) }}">
+                                        <img src="
+                                    {% if recette.image is null %}
+                                        https://bulma.io/images/placeholders/1280x960.png
+                                    {% else %}
+                                        {{ asset('uploads/images/'~recette.image) }}
+                                    {% endif %}
+                                " alt="Placeholder image">
+                                    </a>
+                                </figure>
+                            </div>
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-content">
+                                        <strong>{{ recette.titre }}</strong>
+                                        <p>publié par<a></a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <footer class="card-footer">
+                                <div class="card-footer-item">
+                                <span class="icon is-small" style="margin-right: 4px;">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                                    {{ recette.nb_personnes }}
+                                </div>
+                                <div class="card-footer-item">
+                                <span class="icon is-small" style="margin-right: 4px;">
+                                  <i class="fas fa-stopwatch"></i>
+                                </span>
+                                    {{ recette.temps_preparation }}
+                                </div>
+                                <div class="card-footer-item">
+                                <span class="icon is-small" style="margin-right: 4px;">
+                                  <i class="fas fa-star"></i>
+                                </span>
+                                    {{ recette.moyenne|round(1, 'floor') }}
+                                </div>
+                                <div class="card-footer-item">
+                                <span class="icon is-small" style="margin-right: 4px;">
+                                  <i class="fas fa-comment"></i>
+                                </span>
+                                    0
+                                </div>
+                            </footer>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="carousel-navigation is-centered">
+                <div class="carousel-nav-left">
+                    <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                </div>
+                <div class="carousel-nav-right">
+                    <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                </div>
             </div>
         </div>
-    </section>
+        <hr>
+        <h4 class="title is-4" style="padding-left: 1rem;">
+            <span class="icon" style="margin-right: 1rem;">
+                <i class="fas fa-star"></i>
+            </span>
+            Top Plats
+        </h4>
+        <div class='carousel carousel-animated carousel-animate-slide' data-size="3">
+            <div class='carousel-container'>
+                {% for recette in topPlats %}
+                    <div class="carousel-item">
+                        <div class="card">
+                            <div class="card-image">
+                                <figure class="image is-4by3">
+                                    <a href="{{ path('recette_show', {'id': recette.id}) }}">
+                                        <img src="
+                                    {% if recette.image is null %}
+                                        https://bulma.io/images/placeholders/1280x960.png
+                                    {% else %}
+                                        {{ asset('uploads/images/'~recette.image) }}
+                                    {% endif %}
+                                " alt="Placeholder image">
+                                    </a>
+                                </figure>
+                            </div>
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-content">
+                                        <strong>{{ recette.titre }}</strong>
+                                        <p>publié par<a></a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <footer class="card-footer">
+                                <div class="card-footer-item">
+                                <span class="icon is-small" style="margin-right: 4px;">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                                    {{ recette.nb_personnes }}
+                                </div>
+                                <div class="card-footer-item">
+                                <span class="icon is-small" style="margin-right: 4px;">
+                                  <i class="fas fa-stopwatch"></i>
+                                </span>
+                                    {{ recette.temps_preparation }}
+                                </div>
+                                <div class="card-footer-item">
+                                <span class="icon is-small" style="margin-right: 4px;">
+                                  <i class="fas fa-star"></i>
+                                </span>
+                                    {{ recette.moyenne|round(1, 'floor') }}
+                                </div>
+                                <div class="card-footer-item">
+                                <span class="icon is-small" style="margin-right: 4px;">
+                                  <i class="fas fa-comment"></i>
+                                </span>
+                                    0
+                                </div>
+                            </footer>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="carousel-navigation is-centered">
+                <div class="carousel-nav-left">
+                    <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                </div>
+                <div class="carousel-nav-right">
+                    <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <h4 class="title is-4" style="padding-left: 1rem;">
+            <span class="icon" style="margin-right: 1rem;">
+                <i class="fas fa-star"></i>
+            </span>
+            Top Desserts
+        </h4>
+        <div class='carousel carousel-animated carousel-animate-slide' data-size="3">
+            <div class='carousel-container'>
+                {% for recette in topDesserts %}
+                    <div class="carousel-item">
+                        <div class="card">
+                            <div class="card-image">
+                                <figure class="image is-4by3">
+                                    <a href="{{ path('recette_show', {'id': recette.id}) }}">
+                                        <img src="
+                                    {% if recette.image is null %}
+                                        https://bulma.io/images/placeholders/1280x960.png
+                                    {% else %}
+                                        {{ asset('uploads/images/'~recette.image) }}
+                                    {% endif %}
+                                " alt="Placeholder image">
+                                    </a>
+                                </figure>
+                            </div>
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-content">
+                                        <strong>{{ recette.titre }}</strong>
+                                        <p>publié par<a></a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <footer class="card-footer">
+                                <div class="card-footer-item">
+                                <span class="icon is-small" style="margin-right: 4px;">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                                    {{ recette.nb_personnes }}
+                                </div>
+                                <div class="card-footer-item">
+                                <span class="icon is-small" style="margin-right: 4px;">
+                                  <i class="fas fa-stopwatch"></i>
+                                </span>
+                                    {{ recette.temps_preparation }}
+                                </div>
+                                <div class="card-footer-item">
+                                <span class="icon is-small" style="margin-right: 4px;">
+                                  <i class="fas fa-star"></i>
+                                </span>
+                                    {{ recette.moyenne|round(1, 'floor') }}
+                                </div>
+                                <div class="card-footer-item">
+                                <span class="icon is-small" style="margin-right: 4px;">
+                                  <i class="fas fa-comment"></i>
+                                </span>
+                                    0
+                                </div>
+                            </footer>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="carousel-navigation is-centered">
+                <div class="carousel-nav-left">
+                    <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                </div>
+                <div class="carousel-nav-right">
+                    <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
-{% block javascripts %}{{ parent() }}{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('assets/bulma-carousel.min.js') }}"></script>
+    <script>let carousels = bulmaCarousel.attach();</script>
+{% endblock %}
 

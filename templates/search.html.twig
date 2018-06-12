@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - Accueil{% endblock %}
+
+{% block stylesheets %}{{ parent() }}{% endblock %}
+
+{% block header_title %}Bienvenue sur Cookbook{% endblock %}
+{% block header_subtitle %}Quelle recette recherchez-vous ?{% endblock %}
+{% block header_tabs %}
+        <li><a href="">Rechercher une recette</a></li>
+        <li><a href="">Rechercher un internaute</a></li>
+{% endblock %}
+{% block header_image %}{{ asset('icons/default2.jpg') }}{% endblock %}
+
+{% block content %}
+    <section class="hero is-white is-fullheight">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Primary bold title
+                </h1>
+                <h2 class="subtitle">
+                    Primary bold subtitle
+                </h2>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}{{ parent() }}{% endblock %}
+

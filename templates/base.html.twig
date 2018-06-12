@@ -6,6 +6,7 @@
         {% block stylesheets %}
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
             <link rel="stylesheet" href="{{ asset('assets/bulma.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/bulma-carousel.min.css') }}">
             <link rel="stylesheet" href="{{ asset('assets/style.css') }}">
         {% endblock %}
     </head>
@@ -78,18 +79,41 @@
                 </div>
                 <div id="navbar-menu-id" class="navbar-menu">
                     <div class="navbar-start">
-                        <a class="navbar-item" href="">Top recettes</a>
+                        <a class="navbar-item" href="{{ path('index') }}">
+                            <span class="icon">
+                                <i class="fas fa-trophy"></i>
+                            </span>
+                            <span>
+                                Top
+                            </span>
+                        </a>
+                        <a class="navbar-item" href="">
+                            <span class="icon">
+                                <i class="fas fa-search"></i>
+                            </span>
+                            <span>
+                                Rechercher
+                            </span>
+                        </a>
                     </div>
+
                     <div class="navbar-end">
                         {% if is_granted("ROLE_USER") %}
-                            <a class="navbar-item" href="{{ path('mes_recettes') }}">Mes recettes</a>
-                            <a class="navbar-item" href="">
-                            <span class="icon">
-                                <i class="fas fa-user"></i>
-                            </span>
+                            <a class="navbar-item" href="{{ path('mes_recettes') }}">
+                                <span class="icon">
+                                    <i class="fas fa-book"></i>
+                                </span>
                                 <span>
-                                {{ app.user.username }}
-                            </span>
+                                    Mes recettes
+                                </span>
+                            </a>
+                            <a class="navbar-item" href="">
+                                <span class="icon">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                                <span>
+                                    {{ app.user.username }}
+                                </span>
                             </a>
 
                             <div class="navbar-item">
@@ -115,6 +139,7 @@
                     </div>
                 </div>
             </nav>
+            <div style="width:100%; height: 3.25rem;"></div>
             <section class="hero is-medium parallax-window header-background" data-parallax="scroll" data-image-src="{% block header_image %}{{ asset('icons/default2.jpg') }}{% endblock %}">
                 <div class="container has-text-centered">
                     <h1 class="title has-text-white">
@@ -132,7 +157,6 @@
                     </ul>
                 </div>
             </nav>
-
             {% block content %}{% endblock %}
 
             <footer class="footer is-fixed-bottom">
@@ -193,6 +217,7 @@
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
             <script type="text/javascript" src="{{ asset('assets/parallax.js-1.5.0/parallax.js') }}"></script>
             <script type="text/javascript" src="{{ asset('assets/script.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('assets/bulma-carousel.min.js') }}"></script>
         {% endblock %}
     </body>
 </html>

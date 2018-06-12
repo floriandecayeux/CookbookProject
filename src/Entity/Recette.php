@@ -296,6 +296,10 @@ class Recette
         return round($avg,1);
     }
 
+    public function getNbCommentaires(){
+        return count($this->commentaires);
+    }
+
     /**
      * @return mixed
      */
