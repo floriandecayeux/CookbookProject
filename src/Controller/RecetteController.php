@@ -172,6 +172,7 @@ class RecetteController extends Controller
            $ingredients = $request->request->get('ingredients');
            $etapes = $request->request->get('_etapes');
            $file = $request->files->get('new_recette');
+           $pays = $request->request->get('_pays');
 
             $recette = new Recette($this->getUser());
             $recette->setTitre($titre);
@@ -180,6 +181,7 @@ class RecetteController extends Controller
             $recette->setTempsPreparation($tempsPreparation);
             $recette->setImage($file['image']);
             $recette->setEtapes($etapes);
+            $recette->setPays($pays);
 
             $upload = new ImageUpload('../public/uploads/images');
             $ImageUploadListener = new ImageUploadListener($upload);
@@ -228,6 +230,7 @@ class RecetteController extends Controller
             $tempsPreparation= $request->request->get('_tempsPrepa');
             $ingredients = $request->request->get('ingredients');
             $etapes = $request->request->get('_etapes');
+            $pays = $request->request->get('_pays');
 
             $recette = $this->getDoctrine()
                 ->getRepository(Recette::class)
@@ -238,6 +241,7 @@ class RecetteController extends Controller
             $recette->setNbPersonnes($nbPersonnes);
             $recette->setTempsPreparation($tempsPreparation);
             $recette->setEtapes($etapes);
+            $recette->setPays($pays);
 
             $em->persist($recette);
             $em->flush();

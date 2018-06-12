@@ -75,6 +75,11 @@ class Recette
      */
     private $etapes;
 
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $pays;
+
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Commentaire", mappedBy="recette")
@@ -290,5 +295,23 @@ class Recette
         else {$avg = 0;}
         return round($avg,1);
     }
+
+    /**
+     * @return mixed
+     */
+    public function getPays()
+    {
+        return $this->pays;
+    }
+
+    /**
+     * @param mixed $pays
+     */
+    public function setPays($pays)
+    {
+        $this->pays = $pays;
+    }
+
+
   
 }

@@ -1,5 +1,7 @@
 let connectionModal = document.getElementById('connectionModal');
-let rowCounter = document.getElementById('ingredients').childElementCount;
+let ingredients = document.getElementById('ingredients');
+let rowCounter = 0;
+if(ingredients !== null){rowCounter = ingredients.childElementCount;}
 
 function openConnectionModal(){
     connectionModal.className = 'modal is-active';
