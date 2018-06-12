@@ -293,7 +293,7 @@ class RecetteController extends Controller
                                          ");
         $topDesserts = $query->getResult();
 
-         return $this->render('recette.html.twig', array(
+         return $this->render('index.html.twig', array(
             'topDesserts' => $topDesserts
         )); 
     }
