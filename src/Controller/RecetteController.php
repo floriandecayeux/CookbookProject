@@ -273,30 +273,6 @@ class RecetteController extends Controller
     }
 
 
-    //liste les 100 premières recette "top recette"
-    /**
-     * @Route("/top_recettes", name="top_recettes")
-     */
-    public function topRecette(Request $request){
-
-
-        $em = $this->getDoctrine()->getManager();
-
-    //get 50 top dessert pr moyenne des notes
-        $query = $em->createQuery("SELECT r, AVG(note.note) as moyenne 
-                                         FROM Recette r
-                                         LEFT JOIN Note n ON r.id = n.recette_id
-                                         WHERE r.categorie = 'dessert'
-                                         GROUP BY r.id 
-                                         ORDER BY moyenne DESC
-                                         LIMIT 50
-                                         ");
-        $topDesserts = $query->getResult();
-
-         return $this->render('index.html.twig', array(
-            'topDesserts' => $topDesserts
-        )); 
-    }
 
 
 

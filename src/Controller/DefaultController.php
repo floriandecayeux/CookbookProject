@@ -23,17 +23,26 @@ class DefaultController extends Controller
      */
     public function index(){
 
-        $recettes = $this->getDoctrine()
-            ->getRepository(Recette::class)
-            ->findAll();
 
-       return $this->render('index.html.twig', array(
-            'recettes' => $recettes)/*, [
-            'reservations' => $reservations,
-            'metresReserves' => $metresReserves,
-            'sommeCollectee' => $sommeCollectee
+        $em = $this->getDoctrine()->getManager();
 
-        ]*/);
+    //get 50 top dessert pr moyenne des notes
+        $query = $em->createQuery("SELECT r, AVG(note.note) as moyenne 
+                                         FROM Recette r
+                                         LEFT JOIN Note n ON r.id = n.recette_id
+                                         WHERE r.categorie = 'dessert'
+                                         GROUP BY r.id 
+                                         ORDER BY moyenne DESC
+                                         LIMIT 50
+                                         ");
+        $topDesserts = $query->getResult();
+
+         return $this->render('index.html.twig', array(
+            'topDesserts' => $topDesserts
+        ));
+
+
+
     }
 
 
