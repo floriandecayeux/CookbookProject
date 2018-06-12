@@ -1,5 +1,5 @@
 let connectionModal = document.getElementById('connectionModal');
-let rowCounter = 0;
+let rowCounter = document.getElementById('ingredients').childElementCount;
 
 function openConnectionModal(){
     connectionModal.className = 'modal is-active';
@@ -15,7 +15,6 @@ function toggleBurgerMenu(){
 
 
 function addIngredientNode(){
-    rowCounter++;
     let table = document.getElementById('ingredients');
     let row = table.insertRow(table.childElementCount);
 
@@ -27,7 +26,8 @@ function addIngredientNode(){
     nameCell.innerHTML = "<input type='text' class='input' placeholder='Salade, tomate, oignon, ...' name='ingredients["+rowCounter+"][0]'>";
     qteCell.innerHTML = "<input type='number' min='0' value='0' class='input' name='ingredients["+rowCounter+"][1]'>";
     unitCell.innerHTML = "<input type='text' class='input' placeholder='kg, ...' name='ingredients["+rowCounter+"][2]'>";
-    actionCell.innerHTML = "<div class='button' onclick='deleteIngredientNode(this)'><span class='icon is-left'><i class='fas fa-minus'></i></span></div>"
+    actionCell.innerHTML = "<div class='button' onclick='deleteIngredientNode(this)'><span class='icon is-left'><i class='fas fa-minus'></i></span></div>";
+    rowCounter++;
 }
 function deleteIngredientNode(element){
     let index = element.parentElement.parentElement.rowIndex;

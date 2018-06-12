@@ -1,0 +1,181 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block stylesheets %}{{ parent() }}{% endblock %}
+{% block header_title %}{{ recette.titre }}{% endblock %}
+{% block header_subtitle %}publié par<a> @{{ recette.user.username }}</a>{% endblock %}
+
+{% block header_tabs %}
+    <li><a href="{{ path('recette_show', {'id': recette.id}) }}">{{ recette.titre }}</a></li>
+    <li class="is-active"><a href="{{ path('recette_edit', {'id': recette.id}) }}">Éditer la recette</a></li>
+{% endblock %}
+{% block header_image %}
+    {% if recette.image is null %}
+        https://bulma.io/images/placeholders/1280x960.png
+    {% else %}
+        {{ asset('uploads/images/'~recette.image) }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <form class="columns is-multiline" style="padding-left: 7px" enctype="multipart/form-data" action="{{ path('modif_recette', {'id': recette.id}) }}" method="post" >
+        <div class="column is-12">
+            <h4 class="title is-4">
+                        <span class="icon">
+                            <i class="fas fa-info-circle"></i>
+                        </span>
+                Informations sur la recette
+            </h4>
+            <div class="field has-addons">
+                <p class="control has-icons-left">
+                    <input class="input" value="{{ recette.titre }}" placeholder="Nom de la recette" id="username" name="_titre" required>
+                    <span class="icon is-small is-left">
+                              <i class="fas fa-book"></i>
+                            </span>
+                </p>
+                <div class="file">
+                    <label class="file-label">
+                        <input class="file-input" id="new_recette_image" name="new_recette[image]" type="file">
+                        <span class="file-cta">
+                                  <span class="file-icon">
+                                    <i class="fas fa-upload"></i>
+                                  </span>
+                                  <span class="file-label">
+                                    Aperçu
+                                  </span>
+                                </span>
+                    </label>
+                </div>
+            </div>
+            <div class="field">
+                <div class="control has-icons-left">
+                    <div class="select">
+                        <select id="categorie" name="_categorie">
+                            <option value="Entree" {% if recette.categorie == "Entree" %}selected{% endif %}>Entrée</option>
+                            <option value="Plat" {% if recette.categorie == "Plat" %}selected{% endif %}>Plat</option>
+                            <option value="Dessert" {% if recette.categorie == "Dessert" %}selected{% endif %}>Dessert</option>
+                        </select>
+                    </div>
+                    <span class="icon is-left">
+                                <i class="fas fa-align-left"></i>
+                            </span>
+                </div>
+            </div>
+            <div class="field">
+                <div class="control has-icons-left">
+                    <div class="select">
+                        <select id="nbPersonnes" name="_nbPersonnes">
+                            {% for i in range(1,12,1) %}
+                                <option value="{{i}}" {% if recette.nbPersonnes == i %}selected{% endif %}>{{i}} pers.</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <span class="icon is-left">
+                            <i class="fas fa-user"></i>
+                        </span>
+                </div>
+            </div>
+            <div class="field">
+                <div class="control has-icons-left">
+                    <div class="select">
+                        <select id="tempsPrepa" name="_tempsPrepa">
+                            {% for i in range(5,120,5) %}
+                                <option value="{{i}}" {% if recette.tempsPreparation == i %}selected{% endif %}>{{i}} min</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <span class="icon is-left">
+                            <i class="fas fa-stopwatch"></i>
+                        </span>
+                </div>
+            </div>
+        </div>
+        <div class="column is-12"><hr></div>
+        <div class="column is-12">
+            <h4 class="title is-4">
+                        <span class="icon">
+                            <i class="fas fa-lemon"></i>
+                        </span>
+                Ingrédients
+            </h4>
+            <table class="table is-striped is-hoverable">
+                <thead>
+                <tr>
+                    <th width="300px">Nom</th>
+                    <th>Quantité</th>
+                    <th>Unité</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th width="300px"></th>
+                    <th></th>
+                    <th></th>
+                    <th>
+                        <div class="button" onclick="addIngredientNode()">
+                                      <span class="icon is-left">
+                                        <i class="fas fa-plus"></i>
+                                      </span>
+                        </div>
+                    </th>
+                </tr>
+                </tfoot>
+                <tbody id="ingredients">
+                {% for ingredient in recette.ingredients %}
+                <tr>
+                    <td><input type='text' value="{{ ingredient.nom }}" class='input' placeholder='Salade, tomate, oignon, ...' name='ingredients[{{ loop.index0 }}][0]'></td>
+                    <td><input type='number' value="{{ ingredient.quantite }}" min='0' value='0' class='input' name='ingredients[{{ loop.index0 }}][1]'></td>
+                    <td><input type='text' value="{{ ingredient.unite }}" class='input' placeholder='kg, ...' name='ingredients[{{ loop.index0 }}][2]'></td>
+                    <td>
+                        <div class="button" onclick="deleteIngredientNode(this)">
+                                  <span class="icon is-left">
+                                    <i class="fas fa-minus"></i>
+                                  </span>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="column is-12"><hr></div>
+        <div class="column is-12">
+            <h4 class="title is-4">
+                        <span class="icon">
+                            <i class="fas fa-play-circle"></i>
+                        </span>
+                Étapes
+            </h4>
+            <div class="field">
+                <div class="control">
+                    <textarea name="_etapes" class="textarea" placeholder="Décrivez les différentes étapes à suivre pour réaliser votre recette..." rows="10" required>
+                        {{ recette.etapes }}
+                    </textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="column is-12">
+            <hr>
+            <div class="field is-grouped is-grouped-right">
+                <p class="control">
+                    <button type="submit" class="button is-danger">
+                        Enregistrer mes modifications
+                    </button>
+                </p>
+            </div>
+        </div>
+
+        {% if error is defined and error %}
+            <p class="help is-danger">{{ message }}</p>
+            <p class="help is-danger">{{ dump(request) }}</p>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}
+
+{% block javascripts %}{{ parent() }}{% endblock %}
+

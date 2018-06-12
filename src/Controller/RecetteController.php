@@ -57,6 +57,18 @@ class RecetteController extends Controller
 
         ]*/);
     }
+    /**
+     * @Route("/recette_edit/{id}", name="recette_edit")
+     */
+    public function editAction($id){
+        $recette = $this->getDoctrine()
+            ->getRepository(Recette::class)
+            ->find($id);
+
+        return $this->render('recette/edit.html.twig', array(
+            'recette' => $recette
+        ));
+    }
 
    /**
      * @Route("/recette_show/{id}", name="recette_show")
@@ -199,6 +211,60 @@ class RecetteController extends Controller
                     'request' => $request
                 )
             );
+        }
+    }
+
+
+    /**
+     * @Route("/modif_recette/{id}", name="modif_recette")
+     */
+    public function modifRecette(Request $request, $id){
+        try{
+            $em = $this->getDoctrine()->getManager();
+
+            $titre = $request->request->get('_titre');
+            $categorie = $request->request->get('_categorie');
+            $nbPersonnes = $request->request->get('_nbPersonnes');
+            $tempsPreparation= $request->request->get('_tempsPrepa');
+            $ingredients = $request->request->get('ingredients');
+            $etapes = $request->request->get('_etapes');
+
+            $recette = $this->getDoctrine()
+                ->getRepository(Recette::class)
+                ->find($id);
+
+            $recette->setTitre($titre);
+            $recette->setCategorie($categorie);
+            $recette->setNbPersonnes($nbPersonnes);
+            $recette->setTempsPreparation($tempsPreparation);
+            $recette->setEtapes($etapes);
+
+            $em->persist($recette);
+            $em->flush();
+
+            foreach ($recette->getIngredients() as $ingredientRecette){
+                $em->remove($ingredientRecette);
+                $em->flush();
+            }
+
+            foreach($ingredients as $ingredientElem){
+                $ingredient = new Ingredient();
+                $ingredient->setNom($ingredientElem[0]);
+                $ingredient->setQuantite($ingredientElem[1]);
+                $ingredient->setUnite($ingredientElem[2]);
+                $ingredient->setRecette($recette);
+                $em->persist($ingredient);
+                $em->flush();
+            }
+
+            return $this->redirectToRoute('recette_show', array(
+                'id' => $id
+            ));
+
+        } catch (\Exception $e) {
+            return $this->redirectToRoute('recette_edit', array(
+                'id' => $id
+            ));
         }
     }
 

@@ -6,7 +6,8 @@
 {% block header_title %}{{ recette.titre }}{% endblock %}
 {% block header_subtitle %}publié par<a> @{{ recette.user.username }}</a>{% endblock %}
 {% block header_tabs %}
-    <li {% if action is defined and action == 'recettes' %}class="is-active"{% endif %}><a href="{{ path('mes_recettes') }}">{{ recette.titre }}</a></li>
+    <li class="is-active"><a href="{{ path('mes_recettes') }}">{{ recette.titre }}</a></li>
+   {% if recette.user == app.user %} <li><a href="{{ path('recette_edit', {'id': recette.id}) }}">Éditer la recette</a></li> {% endif %}
 {% endblock %}
 {% block header_image %}
     {% if recette.image is null %}
