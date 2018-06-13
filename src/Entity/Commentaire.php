@@ -17,7 +17,7 @@ class Commentaire
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", cascade={"persist","merge","remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="commentaires", cascade={"persist","merge","remove"})
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;

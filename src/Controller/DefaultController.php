@@ -59,32 +59,24 @@ class DefaultController extends Controller
 
     }
 
- function cmp($recetteA, $recetteB){
+     function cmp($recetteA, $recetteB){
 
-          if ($recetteA->getNoteMoyenne() == $recetteB->getNoteMoyenne()) {
-        return 0;
+              if ($recetteA->getNoteMoyenne() == $recetteB->getNoteMoyenne()) {
+            return 0;
+        }
+        return ($recetteA->getNoteMoyenne() > $recetteB->getNoteMoyenne()) ? -1 : 1;
     }
-    return ($recetteA->getNoteMoyenne() > $recetteB->getNoteMoyenne()) ? -1 : 1;
-}
-
- function cmp($recetteA, $recetteB){
-
-          if ($recetteA->getNoteMoyenne() == $recetteB->getNoteMoyenne()) {
-        return 0;
-    }
-    return ($recetteA->getNoteMoyenne() > $recetteB->getNoteMoyenne()) ? -1 : 1;
-}
-
     /**
      * @Route("/top_user", name="top_user")
      */
     public function topUser(){
-
+        $em = $this->getDoctrine()->getManager();
         $topUser = $em->getRepository(User::class)->findAll();
+        uasort($topUser, array($this,"triUser"));
 
         return $this->render('index.html.twig', array(
-            'topUser' => $topUser,
-            'action' => 'top_recettes'
+            'topUsers' => $topUser,
+            'action' => 'top_internautes'
         ));
     }
 
@@ -92,7 +84,7 @@ class DefaultController extends Controller
 
  function triUser($userA, $userB){
 
-          if ($userA->getNoteMoyenne() == $userB->getNoteMoyenne()) {
+        if ($userA->getNoteMoyenne() == $userB->getNoteMoyenne()) {
         return 0;
     }
     return ($userA->getNoteMoyenne() > $userB->getNoteMoyenne()) ? -1 : 1;
@@ -101,19 +93,18 @@ class DefaultController extends Controller
   /**
      * @Route("/search", name="search")
      */
-    public function search(){
+    public function search(Request $request){
 
-        $titre = $request->request->get('_titre');
-        $categorie = $request->request->get('_categorie');
-        $pays = $request->request->get('_pays');
+        try{
+            $titre = $request->request->get('_titre');
+            $categorie = $request->request->get('_categorie');
+            $pays = $request->request->get('_pays');
 
-        if(is_null($titre))$titre="*";
-        if(is_null($categorie))$categorie="*";
-        if(is_null($pays))$pays="*";
+            if(is_null($titre))$titre="*";
+            if(is_null($categorie))$categorie="*";
+            if(is_null($pays))$pays="*";
 
-        $recettes = $em->getRepository(User::class)->search($titre, $categorie, $pays);
-
-
+            $recettes = $em->getRepository(User::class)->search($titre, $categorie, $pays);
         } catch (\Exception $e) {
             return $this->render(
                 'index.html.twig',

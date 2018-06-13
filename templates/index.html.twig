@@ -8,7 +8,7 @@
 {% block header_subtitle %}Voici une selection des meilleures recettes de nos internautes{% endblock %}
 {% block header_tabs %}
         <li {% if action is defined and action == 'top_recettes' %}class="is-active"{% endif %}><a href="{{ path('index') }}">Top recettes</a></li>
-        <li {% if action is defined and action == 'top_internautes' %}class="is-active"{% endif %}><a href="{{ path('search') }}">Top internautes</a></li>
+        <li {% if action is defined and action == 'top_internautes' %}class="is-active"{% endif %}><a href="{{ path('top_user') }}">Top internautes</a></li>
 {% endblock %}
 {% block header_image %}{{ asset('icons/default4.jpg') }}{% endblock %}
 
@@ -25,7 +25,14 @@
             <div class='carousel-container'>
                 {% for recette in topEntrees %}
                     <div class="carousel-item">
-                        <div class="card">
+                        <div class="card"
+                             {% if loop.index == 1 %}
+                                style="border: 1px #FFD700 solid;"
+                             {% elseif loop.index == 2 %}
+                                 style="border: 1px #C0C0C0 solid;"
+                             {% elseif loop.index == 3 %}
+                                 style="border: 1px #CD7F32 solid;"
+                             {% endif %}>
                             <div class="card-image">
                                 <figure class="image is-4by3">
                                     <a href="{{ path('recette_show', {'id': recette.id}) }}">
@@ -43,7 +50,7 @@
                                 <div class="media">
                                     <div class="media-content">
                                         <strong>{{ recette.titre }}</strong>
-                                        <p>publié par<a></a></p>
+                                        <p>publié par<a>@{{ recette.user.username }}</a></p>
                                     </div>
                                 </div>
                             </div>
@@ -97,7 +104,14 @@
             <div class='carousel-container'>
                 {% for recette in topPlats %}
                     <div class="carousel-item">
-                        <div class="card">
+                        <div class="card"
+                                {% if loop.index == 1 %}
+                                    style="border: 1px #FFD700 solid;"
+                                {% elseif loop.index == 2 %}
+                                    style="border: 1px #C0C0C0 solid;"
+                                {% elseif loop.index == 3 %}
+                                    style="border: 1px #CD7F32 solid;"
+                                {% endif %}>
                             <div class="card-image">
                                 <figure class="image is-4by3">
                                     <a href="{{ path('recette_show', {'id': recette.id}) }}">
@@ -115,7 +129,7 @@
                                 <div class="media">
                                     <div class="media-content">
                                         <strong>{{ recette.titre }}</strong>
-                                        <p>publié par<a></a></p>
+                                        <p>publié par<a>@{{ recette.user.username }}</a></p>
                                     </div>
                                 </div>
                             </div>
@@ -169,7 +183,14 @@
             <div class='carousel-container'>
                 {% for recette in topDesserts %}
                     <div class="carousel-item">
-                        <div class="card">
+                        <div class="card"
+                                {% if loop.index == 1 %}
+                                    style="border: 1px #FFD700 solid;"
+                                {% elseif loop.index == 2 %}
+                                    style="border: 1px #C0C0C0 solid;"
+                                {% elseif loop.index == 3 %}
+                                    style="border: 1px #CD7F32 solid;"
+                                {% endif %}>
                             <div class="card-image">
                                 <figure class="image is-4by3">
                                     <a href="{{ path('recette_show', {'id': recette.id}) }}">
@@ -187,7 +208,7 @@
                                 <div class="media">
                                     <div class="media-content">
                                         <strong>{{ recette.titre }}</strong>
-                                        <p>publié par<a></a></p>
+                                        <p>publié par<a>@{{ recette.user.username }}</a></p>
                                     </div>
                                 </div>
                             </div>
@@ -231,42 +252,51 @@
             </div>
         </div>
         {% elseif action is defined and action == 'top_internautes' %}
+            <h4 class="title is-4" style="padding-left: 1rem;">
+            <span class="icon" style="margin-right: 1rem;">
+                <i class="fas fa-star"></i>
+            </span>
+                Top Internautes
+            </h4>
             <table class="table is-striped is-hoverable">
                 <thead>
-                <tr>
-                    <th width="300px">Nom</th>
-                    <th>Quantité</th>
-                    <th>Unité</th>
-                    <th></th>
-                </tr>
+                    <tr>
+                        <th>#</th>
+                        <th width="300px">Nom</th>
+                        <th>
+                            <span class="icon is-small" style="margin-right: 4px;">
+                                <i class="fas fa-book"></i>
+                            </span>
+                        </th>
+                        <th>
+                            <span class="icon is-small" style="margin-right: 4px;">
+                                <i class="fas fa-comment"></i>
+                            </span>
+                        </th>
+                        <th>
+                            <span class="icon is-small" style="margin-right: 4px;">
+                                <i class="fas fa-star"></i>
+                            </span>
+                        </th>
+                    </tr>
                 </thead>
-                <tfoot>
-                <tr>
-                    <th width="300px"></th>
-                    <th></th>
-                    <th></th>
-                    <th>
-                        <div class="button" onclick="addIngredientNode()">
-                                      <span class="icon is-left">
-                                        <i class="fas fa-plus"></i>
-                                      </span>
-                        </div>
-                    </th>
+                <tbody>
+                {% for user in topUsers %}
+                <tr
+                        {% if loop.index == 1 %}
+                            style="border-left: 1px #FFD700 solid;"
+                        {% elseif loop.index == 2 %}
+                            style="border-left: 1px #C0C0C0 solid;"
+                        {% elseif loop.index == 3 %}
+                            style="border-left: 1px #CD7F32 solid;"
+                        {% endif %}>
+                    <th>{{ loop.index }}</th>
+                    <td><a>{{ user.username }}</a></td>
+                    <td>{{ user.nbRecettes }}</td>
+                    <td>{{ user.nbCommentaires }}</td>
+                    <td>{{ user.noteMoyenne }}</td>
                 </tr>
-                </tfoot>
-                <tbody id="ingredients">
-                <tr>
-                    <td><input type='text' class='input' placeholder='Salade, tomate, oignon, ...' name='ingredients[0][]'></td>
-                    <td><input type='number' min='0' value='0' class='input' name='ingredients[0][]'></td>
-                    <td><input type='text' class='input' placeholder='kg, ...' name='ingredients[0][]'></td>
-                    <td>
-                        <div class="button" onclick="deleteIngredientNode(this)">
-                                  <span class="icon is-left">
-                                    <i class="fas fa-minus"></i>
-                                  </span>
-                        </div>
-                    </td>
-                </tr>
+                {% endfor %}
                 </tbody>
             </table>
         {% endif %}

@@ -45,6 +45,11 @@ class User implements UserInterface, \Serializable
      */
     private $recettes;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Commentaire", mappedBy="user")
+     */
+    private $commentaires;
+
    
 
     public function getRoles()
@@ -60,6 +65,7 @@ class User implements UserInterface, \Serializable
         $this->isActive = true;
         $this->roles = 'ROLE_USER';
         $this->recettes = new ArrayCollection();
+        $this->commentaires = new ArrayCollection();
         // may not be needed, see section on salt below
         // $this->salt = md5(uniqid('', true));
     }
@@ -195,14 +201,14 @@ class User implements UserInterface, \Serializable
         $total = 0; $cpt = 0;
 
         foreach ($this->recettes as $recette) {
-        
-            foreach ($recette->notes as $note) {
+
+            foreach ($recette->getNotes() as $note) {
                 $total+=$note->getNote();
                 $cpt++;
             }
             unset($note);
         }
-       unset($recette)
+       unset($recette);
 
         if($cpt>0){$avg = $total/$cpt;}
         else {$avg = 0;}
@@ -212,6 +218,28 @@ class User implements UserInterface, \Serializable
     public function getNbRecettes(){
         return count($this->recettes);
     }
+
+    public function getNbCommentaires(){
+        return count($this->commentaires);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCommentaires()
+    {
+        return $this->commentaires;
+    }
+
+    /**
+     * @param mixed $commentaires
+     */
+    public function setCommentaires($commentaires)
+    {
+        $this->commentaires = $commentaires;
+    }
+
+
 
 
 }
