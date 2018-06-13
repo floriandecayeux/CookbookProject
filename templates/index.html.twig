@@ -7,13 +7,14 @@
 {% block header_title %}Bienvenue sur Cookbook{% endblock %}
 {% block header_subtitle %}Voici une selection des meilleures recettes de nos internautes{% endblock %}
 {% block header_tabs %}
-        <li class="is-active"><a href="">Top recettes</a></li>
-        <li><a href="">Top internautes</a></li>
+        <li {% if action is defined and action == 'top_recettes' %}class="is-active"{% endif %}><a href="{{ path('index') }}">Top recettes</a></li>
+        <li {% if action is defined and action == 'top_internautes' %}class="is-active"{% endif %}><a href="{{ path('search') }}">Top internautes</a></li>
 {% endblock %}
 {% block header_image %}{{ asset('icons/default4.jpg') }}{% endblock %}
 
 {% block content %}
     <div class="container">
+        {% if action is defined and action == 'top_recettes' %}
         <h4 class="title is-4" style="padding-left: 1rem;">
             <span class="icon" style="margin-right: 1rem;">
                 <i class="fas fa-star"></i>
@@ -51,25 +52,25 @@
                                 <span class="icon is-small" style="margin-right: 4px;">
                                     <i class="fas fa-user"></i>
                                 </span>
-                                    {{ recette.nb_personnes }}
+                                    {{ recette.nbPersonnes }}
                                 </div>
                                 <div class="card-footer-item">
                                 <span class="icon is-small" style="margin-right: 4px;">
                                   <i class="fas fa-stopwatch"></i>
                                 </span>
-                                    {{ recette.temps_preparation }}
+                                    {{ recette.tempsPreparation }}
                                 </div>
                                 <div class="card-footer-item">
                                 <span class="icon is-small" style="margin-right: 4px;">
                                   <i class="fas fa-star"></i>
                                 </span>
-                                    {{ recette.moyenne|round(1, 'floor') }}
+                                    {{ recette.noteMoyenne }}
                                 </div>
                                 <div class="card-footer-item">
                                 <span class="icon is-small" style="margin-right: 4px;">
                                   <i class="fas fa-comment"></i>
                                 </span>
-                                    0
+                                    {{ recette.nbCommentaires }}
                                 </div>
                             </footer>
                         </div>
@@ -123,25 +124,25 @@
                                 <span class="icon is-small" style="margin-right: 4px;">
                                     <i class="fas fa-user"></i>
                                 </span>
-                                    {{ recette.nb_personnes }}
+                                    {{ recette.nbPersonnes }}
                                 </div>
                                 <div class="card-footer-item">
                                 <span class="icon is-small" style="margin-right: 4px;">
                                   <i class="fas fa-stopwatch"></i>
                                 </span>
-                                    {{ recette.temps_preparation }}
+                                    {{ recette.tempsPreparation }}
                                 </div>
                                 <div class="card-footer-item">
                                 <span class="icon is-small" style="margin-right: 4px;">
                                   <i class="fas fa-star"></i>
                                 </span>
-                                    {{ recette.moyenne|round(1, 'floor') }}
+                                    {{ recette.noteMoyenne }}
                                 </div>
                                 <div class="card-footer-item">
                                 <span class="icon is-small" style="margin-right: 4px;">
                                   <i class="fas fa-comment"></i>
                                 </span>
-                                    0
+                                    {{ recette.nbCommentaires }}
                                 </div>
                             </footer>
                         </div>
@@ -195,25 +196,25 @@
                                 <span class="icon is-small" style="margin-right: 4px;">
                                     <i class="fas fa-user"></i>
                                 </span>
-                                    {{ recette.nb_personnes }}
+                                    {{ recette.nbPersonnes }}
                                 </div>
                                 <div class="card-footer-item">
                                 <span class="icon is-small" style="margin-right: 4px;">
                                   <i class="fas fa-stopwatch"></i>
                                 </span>
-                                    {{ recette.temps_preparation }}
+                                    {{ recette.tempsPreparation }}
                                 </div>
                                 <div class="card-footer-item">
                                 <span class="icon is-small" style="margin-right: 4px;">
                                   <i class="fas fa-star"></i>
                                 </span>
-                                    {{ recette.moyenne|round(1, 'floor') }}
+                                    {{ recette.noteMoyenne }}
                                 </div>
                                 <div class="card-footer-item">
                                 <span class="icon is-small" style="margin-right: 4px;">
                                   <i class="fas fa-comment"></i>
                                 </span>
-                                    0
+                                    {{ recette.nbCommentaires }}
                                 </div>
                             </footer>
                         </div>
@@ -229,6 +230,46 @@
                 </div>
             </div>
         </div>
+        {% elseif action is defined and action == 'top_internautes' %}
+            <table class="table is-striped is-hoverable">
+                <thead>
+                <tr>
+                    <th width="300px">Nom</th>
+                    <th>Quantité</th>
+                    <th>Unité</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th width="300px"></th>
+                    <th></th>
+                    <th></th>
+                    <th>
+                        <div class="button" onclick="addIngredientNode()">
+                                      <span class="icon is-left">
+                                        <i class="fas fa-plus"></i>
+                                      </span>
+                        </div>
+                    </th>
+                </tr>
+                </tfoot>
+                <tbody id="ingredients">
+                <tr>
+                    <td><input type='text' class='input' placeholder='Salade, tomate, oignon, ...' name='ingredients[0][]'></td>
+                    <td><input type='number' min='0' value='0' class='input' name='ingredients[0][]'></td>
+                    <td><input type='text' class='input' placeholder='kg, ...' name='ingredients[0][]'></td>
+                    <td>
+                        <div class="button" onclick="deleteIngredientNode(this)">
+                                  <span class="icon is-left">
+                                    <i class="fas fa-minus"></i>
+                                  </span>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        {% endif %}
     </div>
 {% endblock %}
 

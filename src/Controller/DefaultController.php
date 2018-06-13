@@ -25,7 +25,7 @@ class DefaultController extends Controller
 
 
         $em = $this->getDoctrine()->getManager();
-         $topDesserts = $em->getRepository(Recette::class)->findAllDessert();
+         $topDesserts = $em->getRepository(Recette::class)->findAllDesserts();
 
          $topPlats = $em->getRepository(Recette::class)->findAllPlats();
 
@@ -43,7 +43,8 @@ class DefaultController extends Controller
          return $this->render('index.html.twig', array(
             'topDesserts' => $topDesserts,
             'topPlats' => $topPlats,
-            'topEntrees' => $topEntrees
+            'topEntrees' => $topEntrees,
+             'action' => 'top_recettes'
         ));
 
 
@@ -58,7 +59,15 @@ class DefaultController extends Controller
     return ($recetteA->getNoteMoyenne() < $recetteB->getNoteMoyenne()) ? -1 : 1;
 }
 
+    /**
+     * @Route("/search", name="search")
+     */
+    public function search(){
 
+        return $this->render('index.html.twig', array(
+            'action' => 'top_internautes'
+        ));
+    }
 
 
 
