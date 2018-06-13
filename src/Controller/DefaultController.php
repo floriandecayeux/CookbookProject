@@ -36,6 +36,12 @@ class DefaultController extends Controller
         // Trie et affiche le tableau résultant
         uasort($topEntrees, array($this,"cmp"));
 
+           // Trie et affiche le tableau résultant
+        uasort($topPlats, array($this,"cmp"));
+
+           // Trie et affiche le tableau résultant
+        uasort($topDesserts, array($this,"cmp"));
+
 
 
 
@@ -56,7 +62,7 @@ class DefaultController extends Controller
           if ($recetteA->getNoteMoyenne() == $recetteB->getNoteMoyenne()) {
         return 0;
     }
-    return ($recetteA->getNoteMoyenne() < $recetteB->getNoteMoyenne()) ? -1 : 1;
+    return ($recetteA->getNoteMoyenne() > $recetteB->getNoteMoyenne()) ? -1 : 1;
 }
 
     /**
