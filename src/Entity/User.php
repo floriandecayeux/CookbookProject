@@ -189,4 +189,29 @@ class User implements UserInterface, \Serializable
 
         return $this;
     }
+
+
+   public function getNoteMoyenne(){
+        $total = 0; $cpt = 0;
+
+        foreach ($this->recettes as $recette) {
+        
+            foreach ($recette->notes as $note) {
+                $total+=$note->getNote();
+                $cpt++;
+            }
+            unset($note);
+        }
+       unset($recette)
+
+        if($cpt>0){$avg = $total/$cpt;}
+        else {$avg = 0;}
+        return round($avg,1);
+    }
+
+    public function getNbRecettes(){
+        return count($this->recettes);
+    }
+
+
 }

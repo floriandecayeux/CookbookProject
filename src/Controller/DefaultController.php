@@ -25,6 +25,8 @@ class DefaultController extends Controller
 
 
         $em = $this->getDoctrine()->getManager();
+
+
          $topDesserts = $em->getRepository(Recette::class)->findAllDesserts();
 
          $topPlats = $em->getRepository(Recette::class)->findAllPlats();
@@ -65,10 +67,20 @@ class DefaultController extends Controller
     return ($recetteA->getNoteMoyenne() > $recetteB->getNoteMoyenne()) ? -1 : 1;
 }
 
+ function cmp($recetteA, $recetteB){
+
+          if ($recetteA->getNoteMoyenne() == $recetteB->getNoteMoyenne()) {
+        return 0;
+    }
+    return ($recetteA->getNoteMoyenne() > $recetteB->getNoteMoyenne()) ? -1 : 1;
+}
+
     /**
-     * @Route("/search", name="search")
+     * @Route("/top_user", name="top_user")
      */
-    public function search(){
+    public function topUser(){
+
+        $topUser = $em->getRepository(User::class)->findAll();
 
         return $this->render('index.html.twig', array(
             'action' => 'top_internautes'
@@ -77,5 +89,12 @@ class DefaultController extends Controller
 
 
 
+ function triUser($userA, $userB){
+
+          if ($userA->getNoteMoyenne() == $userB->getNoteMoyenne()) {
+        return 0;
+    }
+    return ($userA->getNoteMoyenne() > $userB->getNoteMoyenne()) ? -1 : 1;
+}
 
 }
