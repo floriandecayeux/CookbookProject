@@ -23,65 +23,45 @@ class RecetteRepository extends ServiceEntityRepository
 //     * @return User[] Returns an array of User objects
 //     */
 
-    public function findTopDessert()
+   
+
+
+      public function findAllDesserts()
     {
       
-      $rawSql = "SELECT r.*, AVG(n.note) as moyenne 
-                                         FROM Recette AS r
-                                         LEFT JOIN Note AS n ON r.id = n.recette_id
-                                         WHERE r.categorie = 'dessert'
-                                         GROUP BY r.id 
-                                         ORDER BY moyenne DESC
-                                         LIMIT 50
-                                         ";
-
-      $stmt = $this->getEntityManager()->getConnection()->prepare($rawSql);
-      $stmt->execute([]);
-
-    return $stmt->fetchAll();
+     return $this->createQueryBuilder('r')
+                    ->where("r.categorie = 'dessert' ")
+                    ->getQuery()
+                    ->getResult();
 
   
     }
 
-     public function findTopPlats()
+        public function findAllEntrees()
     {
       
-      $rawSql = "SELECT r.*, AVG(n.note) as moyenne 
-                                         FROM Recette AS r
-                                         LEFT JOIN Note AS n ON r.id = n.recette_id
-                                         WHERE r.categorie = 'plat'
-                                         GROUP BY r.id 
-                                         ORDER BY moyenne DESC
-                                         LIMIT 50
-                                         ";
-
-      $stmt = $this->getEntityManager()->getConnection()->prepare($rawSql);
-      $stmt->execute([]);
-
-    return $stmt->fetchAll();
+     return $this->createQueryBuilder('r')
+                    ->where("r.categorie = 'entree' ")
+                    ->getQuery()
+                    ->getResult();
 
   
     }
-
-     public function findTopEntrees()
+  
+  
+      public function findAllPlats()
     {
       
-      $rawSql = "SELECT r.*, AVG(n.note) as moyenne 
-                                         FROM Recette AS r
-                                         LEFT JOIN Note AS n ON r.id = n.recette_id
-                                         WHERE r.categorie = 'entree'
-                                         GROUP BY r.id 
-                                         ORDER BY moyenne DESC
-                                         LIMIT 50
-                                         ";
-
-      $stmt = $this->getEntityManager()->getConnection()->prepare($rawSql);
-      $stmt->execute([]);
-
-    return $stmt->fetchAll();
+     return $this->createQueryBuilder('r')
+                    ->where("r.categorie = 'plat' ")
+                    ->getQuery()
+                    ->getResult();
 
   
     }
+  
+  
+  
   
 
     /*

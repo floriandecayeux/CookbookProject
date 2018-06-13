@@ -25,9 +25,21 @@ class DefaultController extends Controller
 
 
         $em = $this->getDoctrine()->getManager();
-         $topDesserts = $em->getRepository(Recette::class)->findTopDessert();
-         $topPlats = $em->getRepository(Recette::class)->findTopPlats();
-         $topEntrees = $em->getRepository(Recette::class)->findTopEntrees();
+         $topDesserts = $em->getRepository(Recette::class)->findAllDessert();
+
+         $topPlats = $em->getRepository(Recette::class)->findAllPlats();
+
+
+
+         $topEntrees = $em->getRepository(Recette::class)->findAllEntrees();
+
+        // Trie et affiche le tableau résultant
+        uasort($topEntrees, array($this,"cmp"));
+
+
+
+
+
          return $this->render('index.html.twig', array(
             'topDesserts' => $topDesserts,
             'topPlats' => $topPlats,
@@ -37,6 +49,14 @@ class DefaultController extends Controller
 
 
     }
+
+ function cmp($recetteA, $recetteB){
+
+          if ($recetteA->getNoteMoyenne() == $recetteB->getNoteMoyenne()) {
+        return 0;
+    }
+    return ($recetteA->getNoteMoyenne() < $recetteB->getNoteMoyenne()) ? -1 : 1;
+}
 
 
 
