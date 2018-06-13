@@ -83,7 +83,8 @@ class DefaultController extends Controller
         $topUser = $em->getRepository(User::class)->findAll();
 
         return $this->render('index.html.twig', array(
-            'action' => 'top_internautes'
+            'topUser' => $topUser,
+            'action' => 'top_recettes'
         ));
     }
 
@@ -96,5 +97,44 @@ class DefaultController extends Controller
     }
     return ($userA->getNoteMoyenne() > $userB->getNoteMoyenne()) ? -1 : 1;
 }
+
+  /**
+     * @Route("/search", name="search")
+     */
+    public function search(){
+
+        $titre = $request->request->get('_titre');
+        $categorie = $request->request->get('_categorie');
+        $pays = $request->request->get('_pays');
+
+        if(is_null($titre))$titre="*";
+        if(is_null($categorie))$categorie="*";
+        if(is_null($pays))$pays="*";
+
+        $recettes = $em->getRepository(User::class)->search($titre, $categorie, $pays);
+
+
+        } catch (\Exception $e) {
+            return $this->render(
+                'index.html.twig',
+                array(
+                    // last username entered by the user
+                    'action' => 'recettes_new',
+                    'error'  => true,
+                    'message' => $e->getMessage(),
+                    'request' => $request
+                )
+            );
+        }
+
+        return $this->render('index.html.twig', array(
+            'recettes' => $recettes,
+            'action' => 'search'
+        ));
+    }
+
+
+
+
 
 }

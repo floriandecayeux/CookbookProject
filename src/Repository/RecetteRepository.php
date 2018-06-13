@@ -59,11 +59,20 @@ class RecetteRepository extends ServiceEntityRepository
 
   
     }
-  
-  
-  
-  
+ 
+    public function  search($titre, $categorie, $pays) {
 
+       return $this->createQueryBuilder('r')
+                    ->where("r.titre like ?1")
+                    ->andWhere("r.categorie like ?2")
+                    ->andWhere("r.deletedAt like ?3")                    )
+                    ->setParameter(1, $titre)
+                    ->setParameter(2, $categorie)
+                    ->setParameter(3, $pays)
+                    ->getQuery()
+                    ->getResult();
+      
+    }
     /*
     public function findOneBySomeField($value): ?User
     {
