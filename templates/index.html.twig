@@ -25,14 +25,7 @@
             <div class='carousel-container'>
                 {% for recette in topEntrees %}
                     <div class="carousel-item">
-                        <div class="card"
-                             {% if loop.index == 1 %}
-                                style="border: 1px #FFD700 solid;"
-                             {% elseif loop.index == 2 %}
-                                 style="border: 1px #C0C0C0 solid;"
-                             {% elseif loop.index == 3 %}
-                                 style="border: 1px #CD7F32 solid;"
-                             {% endif %}>
+                        <div class="card">
                             <div class="card-image">
                                 <figure class="image is-4by3">
                                     <a href="{{ path('recette_show', {'id': recette.id}) }}">
@@ -50,7 +43,11 @@
                                 <div class="media">
                                     <div class="media-content">
                                         <strong>{{ recette.titre }}</strong>
-                                        <p>publié par<a>@{{ recette.user.username }}</a></p>
+                                        <p>par<a href="{{ path('user_recettes', {'id': recette.user.id}) }}">@{{ recette.user.username }}</a></p>
+                                        <p class="subtitle is-6 has-text-right">
+                                            <span class="tag is-light">{{ recette.categorie }}</span>
+                                            <span class="tag is-light">{{ recette.pays }}</span>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -104,14 +101,7 @@
             <div class='carousel-container'>
                 {% for recette in topPlats %}
                     <div class="carousel-item">
-                        <div class="card"
-                                {% if loop.index == 1 %}
-                                    style="border: 1px #FFD700 solid;"
-                                {% elseif loop.index == 2 %}
-                                    style="border: 1px #C0C0C0 solid;"
-                                {% elseif loop.index == 3 %}
-                                    style="border: 1px #CD7F32 solid;"
-                                {% endif %}>
+                        <div class="card">
                             <div class="card-image">
                                 <figure class="image is-4by3">
                                     <a href="{{ path('recette_show', {'id': recette.id}) }}">
@@ -129,7 +119,11 @@
                                 <div class="media">
                                     <div class="media-content">
                                         <strong>{{ recette.titre }}</strong>
-                                        <p>publié par<a>@{{ recette.user.username }}</a></p>
+                                        <p>par<a href="{{ path('user_recettes', {'id': recette.user.id}) }}">@{{ recette.user.username }}</a></p>
+                                        <p class="subtitle is-6 has-text-right">
+                                            <span class="tag is-light">{{ recette.categorie }}</span>
+                                            <span class="tag is-light">{{ recette.pays }}</span>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -183,14 +177,7 @@
             <div class='carousel-container'>
                 {% for recette in topDesserts %}
                     <div class="carousel-item">
-                        <div class="card"
-                                {% if loop.index == 1 %}
-                                    style="border: 1px #FFD700 solid;"
-                                {% elseif loop.index == 2 %}
-                                    style="border: 1px #C0C0C0 solid;"
-                                {% elseif loop.index == 3 %}
-                                    style="border: 1px #CD7F32 solid;"
-                                {% endif %}>
+                        <div class="card">
                             <div class="card-image">
                                 <figure class="image is-4by3">
                                     <a href="{{ path('recette_show', {'id': recette.id}) }}">
@@ -208,7 +195,11 @@
                                 <div class="media">
                                     <div class="media-content">
                                         <strong>{{ recette.titre }}</strong>
-                                        <p>publié par<a>@{{ recette.user.username }}</a></p>
+                                        <p>par<a href="{{ path('user_recettes', {'id': recette.user.id}) }}">@{{ recette.user.username }}</a></p>
+                                        <p class="subtitle is-6 has-text-right">
+                                            <span class="tag is-light">{{ recette.categorie }}</span>
+                                            <span class="tag is-light">{{ recette.pays }}</span>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -282,16 +273,9 @@
                 </thead>
                 <tbody>
                 {% for user in topUsers %}
-                <tr
-                        {% if loop.index == 1 %}
-                            style="border-left: 1px #FFD700 solid;"
-                        {% elseif loop.index == 2 %}
-                            style="border-left: 1px #C0C0C0 solid;"
-                        {% elseif loop.index == 3 %}
-                            style="border-left: 1px #CD7F32 solid;"
-                        {% endif %}>
+                <tr>
                     <th>{{ loop.index }}</th>
-                    <td><a>{{ user.username }}</a></td>
+                    <td><a href="{{ path('user_recettes', {'id': user.id}) }}">{{ user.username }}</a></td>
                     <td>{{ user.nbRecettes }}</td>
                     <td>{{ user.nbCommentaires }}</td>
                     <td>{{ user.noteMoyenne }}</td>

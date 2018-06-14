@@ -47,7 +47,7 @@
             <div class="box has-text-centered">
                 <div>
                     <p class="heading">Auteur</p>
-                    <p class="title">{{ recette.user.username }}</p>
+                    <p class="title"><a href="{{ path('user_recettes', {'id': recette.user.id}) }}">{{ recette.user.username }}</a></p>
                 </div>
             </div>
         </div>
@@ -130,7 +130,7 @@
                 {% for commentaire in recette.commentaires %}
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label">{{ commentaire.user.username }}</label>
+                            <label class="label"><a href="{{ path('user_recettes', {'id': commentaire.user.id}) }}">{{ commentaire.user.username }}</a></label>
                         </div>
                         <div class="field-body">
                             <div class="box {% if commentaire.user == app.user %}has-background-light{% endif %}">

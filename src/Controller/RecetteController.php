@@ -138,6 +138,24 @@ class RecetteController extends Controller
         )); 
     }
 
+    //liste l'ensemble des recettes de l'utilisateur
+    /**
+     * @Route("/user_recettes/{id}", name="user_recettes")
+     */
+    public function userRecettes(Request $request, $id){
+
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->find($id);
+
+        $recettes = $user->getRecettes();
+
+        return $this->render('user/recettes.html.twig', array(
+            'recettes' => $recettes,
+            'user' => $user
+        ));
+    }
+
     /**
      * @Route("/mes_recettes_new", name="mes_recettes_new")
      */

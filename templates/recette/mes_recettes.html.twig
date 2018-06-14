@@ -38,7 +38,11 @@
                             <div class="media">
                                 <div class="media-content">
                                     <p class="title is-4">{{ recette.titre }}</p>
-                                    <p class="subtitle is-6">publié par<a> @{{ recette.user.username }}</a></p>
+                                    <p class="subtitle is-6">par<a href="{{ path('user_recettes', {'id': recette.user.id}) }}"> @{{ recette.user.username }}</a></p>
+                                    <p class="subtitle is-6 has-text-right">
+                                        <span class="tag is-light">{{ recette.categorie }}</span>
+                                        <span class="tag is-light">{{ recette.pays }}</span>
+                                    </p>
                                 </div>
                             </div>
                         </div>

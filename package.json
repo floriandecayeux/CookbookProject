@@ -16,6 +16,7 @@
     },
     "dependencies": {
         "bulma": "^0.7.1",
+        "bulma-carousel": "^2.0.14",
         "bulma-start": "0.0.2"
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Recette;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -60,18 +61,16 @@ class RecetteRepository extends ServiceEntityRepository
   
     }
  
-    public function  search($titre, $categorie, $pays) {
+    public function search($titre, $categorie, $pays) {
+        $qb = $this->createQueryBuilder('recette');
 
-       return $this->createQueryBuilder('r')
-                    ->where("r.titre like ?1")
-                    ->andWhere("r.categorie like ?2")
-                    ->andWhere("r.pays like ?3")->setParameter(1, $titre)
-                    ->setParameter(2, $categorie)
-                    ->setParameter(3, $pays)
-                    ->getQuery()
-                    ->getResult();
-      
+        if($titre){$qb->andWhere($qb->expr()->like('recette.titre', $qb->expr()->literal('%' . $titre . '%')));}
+        if($categorie){$qb->andWhere('recette.categorie = :categorie')->setParameter('categorie', $categorie);}
+        if($pays){$qb->andWhere('recette.pays = :pays')->setParameter('pays', $pays);}
+
+        return $qb->getQuery()->execute();
     }
+
     /*
     public function findOneBySomeField($value): ?User
     {

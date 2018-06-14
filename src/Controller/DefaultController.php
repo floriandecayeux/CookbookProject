@@ -96,21 +96,18 @@ class DefaultController extends Controller
     public function search(Request $request){
 
         try{
+            $em = $this->getDoctrine()->getManager();
             $titre = $request->request->get('_titre');
             $categorie = $request->request->get('_categorie');
             $pays = $request->request->get('_pays');
 
-            if(is_null($titre))$titre="*";
-            if(is_null($categorie))$categorie="*";
-            if(is_null($pays))$pays="*";
-
-            $recettes = $em->getRepository(User::class)->search($titre, $categorie, $pays);
+            $recettes = $em->getRepository(Recette::class)->search($titre, $categorie, $pays);
         } catch (\Exception $e) {
             return $this->render(
-                'index.html.twig',
+                'search.html.twig',
                 array(
                     // last username entered by the user
-                    'action' => 'recettes_new',
+                    'action' => 'recettes',
                     'error'  => true,
                     'message' => $e->getMessage(),
                     'request' => $request
@@ -118,9 +115,42 @@ class DefaultController extends Controller
             );
         }
 
-        return $this->render('index.html.twig', array(
+        return $this->render('search.html.twig', array(
             'recettes' => $recettes,
-            'action' => 'search'
+            'stitre' => $titre,
+            'scategorie' => $categorie,
+            'spays' => $pays,
+            'action' => 'recettes'
+        ));
+    }
+
+    /**
+     * @Route("/search_int", name="search_int")
+     */
+    public function searchInt(Request $request){
+
+        try{
+            $em = $this->getDoctrine()->getManager();
+            $username = $request->request->get('_username');
+            $users = $em->getRepository(User::class)->search($username);
+
+        } catch (\Exception $e) {
+            return $this->render(
+                'search.html.twig',
+                array(
+                    // last username entered by the user
+                    'action' => 'internautes',
+                    'error'  => true,
+                    'message' => $e->getMessage(),
+                    'request' => $request
+                )
+            );
+        }
+
+        return $this->render('search.html.twig', array(
+            'users' => $users,
+            'susername' => $username,
+            'action' => 'internautes'
         ));
     }
 
