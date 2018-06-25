@@ -125,7 +125,14 @@
                                 </a>
                             </div>
                         {% else %}
-                            <a class="navbar-item" href="{{ path('user_register') }}">Inscription</a>
+                            <a class="navbar-item" href="{{ path('user_register') }}">
+                                <span class="icon">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </span>
+                                <span>
+                                    Inscription
+                                </span>
+                            </a>
                             <div class="navbar-item">
                                 <a class="button is-white" href="{{ path('user_login') }}">
                                 <span class="icon">

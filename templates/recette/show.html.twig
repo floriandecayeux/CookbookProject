@@ -141,6 +141,7 @@
                         </div>
                     </div>
                 {% endfor %}
+                {% if app.user is defined and app.user is not null %}
                 <form action="{{ path('ajout_commentaire', {'id': recette.id}) }}" method="post">
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
@@ -169,9 +170,11 @@
                         </div>
                     </div>
                 </form>
+                {% endif %}
             </div>
         </div>
         <div class="column is-4">
+            {% if app.user is defined and app.user is not null and app.user != recette.user %}
             <div class="content" style="padding-left: 1rem;">
                 <p class="has-text-weight-bold has-text-centered">Notez cette recette</p>
                 <p class="has-text-centered stars">
@@ -202,6 +205,7 @@
                     </a>
                 </p>
             </div>
+            {% endif %}
         </div>
     </div>
 </div>
